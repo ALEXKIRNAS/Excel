@@ -1,4 +1,5 @@
 #pragma once
+#include "Table.h"
 
 namespace Excel {
 
@@ -36,6 +37,7 @@ namespace Excel {
 		}
 	private: System::Windows::Forms::DataGridView^  dataGridView1;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Spacer;
+	private: Table^ table;
 
 
 
@@ -100,6 +102,8 @@ namespace Excel {
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		table = gcnew Table(50 + 1, 50 + 1);
+
 		dataGridView1->Rows->Add(50);
 		char s1[2] = "A";
 		dataGridView1->Columns[0]->Width = 60;
@@ -110,6 +114,12 @@ namespace Excel {
 			dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
 			s1[0]++;
 		}
+
+		for (int i = 1; i < 50; i++)
+			for (int z = 1; z <= 50; z++)
+				table[i][z]->change(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
+				
+	
 	}
 	private: System::Void MyForm_Resize(System::Object^  sender, System::EventArgs^  e) {
 		dataGridView1->Width = Width + 1;
