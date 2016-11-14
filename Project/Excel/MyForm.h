@@ -1,5 +1,9 @@
 #pragma once
 #include "Table.h"
+#include "Parser.h"
+#include <string>
+
+using std::string;
 
 namespace Excel {
 
@@ -118,8 +122,17 @@ namespace Excel {
 		for (int i = 1; i < 50; i++)
 			for (int z = 1; z <= 50; z++)
 				table[i][z]->change(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
-				
-	
+
+		String^ str = gcnew String("2 + 3 * $B$10 + sin($B$2 - 10.01)");
+		char* s=new char[str->Length+1];
+		array <wchar_t>^ temp = str->ToCharArray();
+		for (size_t i = 0; i < str->Length; i++)
+		{
+			s[i]=temp[i];
+		}
+		s[str->Length] = 0;
+		parse(s, table);
+		delete[] s;
 	}
 	private: System::Void MyForm_Resize(System::Object^  sender, System::EventArgs^  e) {
 		dataGridView1->Width = Width + 1;

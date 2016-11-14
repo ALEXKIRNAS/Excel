@@ -15,9 +15,13 @@ private:
 	// Result of formula calculation
 	Number result;
 
+	// Variable that show is cell contains formula
+	bool isFormula;
+
 public:
 	Cell(void);
 
 	void change(String^ str);
+	double getResult(void);
 
 };
