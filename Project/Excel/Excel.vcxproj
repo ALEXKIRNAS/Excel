@@ -142,8 +142,10 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Table.cpp" />
+    <ClCompile Include="UserIO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FormContainer.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
@@ -153,6 +155,7 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="UserIO.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
