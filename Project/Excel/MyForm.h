@@ -101,6 +101,7 @@ namespace Excel {
 			this->textBox1->Size = System::Drawing::Size(718, 20);
 			this->textBox1->TabIndex = 1;
 			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
+			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::textBox1_KeyPress);
 			// 
 			// MyForm
 			// 
@@ -160,7 +161,7 @@ namespace Excel {
 	private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 	}
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-	UpdateText(textBox1->Text);
+	
 }
 private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
 	if (!Initialized) return;
@@ -172,15 +173,20 @@ private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, 
 	if (dataGridView1->CurrentCell->ColumnIndex == 0)
 	{
 		DeselectCell();
+		textBox1->Text = "";
 	}
 	else
 	{
 		ChangeCurrentCell(dataGridView1->CurrentCell->RowIndex + 1, dataGridView1->CurrentCell->ColumnIndex);
+		textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
 	}
 }
 private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 	if (!Initialized) return;
-	UpdateText(Convert::ToString(dataGridView1->CurrentCell->Value));
+	{
+		UpdateText(Convert::ToString(dataGridView1->CurrentCell->Value));
+		textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
+	}
 
 }
 public: void SetText(String^ newString)
@@ -188,6 +194,13 @@ public: void SetText(String^ newString)
 	textBox1->Text = gcnew String(newString);
 	if (dataGridView1->CurrentCell->ColumnIndex != 0)
 		dataGridView1->CurrentCell->Value = gcnew String(newString);
+}
+private: System::Void textBox1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+	if (e->KeyChar == (char)13)
+	{
+		UpdateText(textBox1->Text);
+		dataGridView1->CurrentCell->Value = textBox1->Text;
+	}
 }
 };
 }
