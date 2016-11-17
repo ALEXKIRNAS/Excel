@@ -79,12 +79,11 @@ namespace Excel {
 			this->dataGridView1->AllowUserToDeleteRows = false;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(1) { this->Spacer });
-			this->dataGridView1->Location = System::Drawing::Point(-1, 74);
-			this->dataGridView1->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->dataGridView1->Location = System::Drawing::Point(-1, 60);
 			this->dataGridView1->MultiSelect = false;
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersVisible = false;
-			this->dataGridView1->Size = System::Drawing::Size(957, 330);
+			this->dataGridView1->Size = System::Drawing::Size(153, 68);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellContentClick);
 			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
@@ -98,23 +97,22 @@ namespace Excel {
 			// 
 			// textBox1
 			// 
-			this->textBox1->Location = System::Drawing::Point(-1, 42);
-			this->textBox1->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->textBox1->Enabled = false;
+			this->textBox1->Location = System::Drawing::Point(-1, 34);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(956, 22);
+			this->textBox1->Size = System::Drawing::Size(63, 20);
 			this->textBox1->TabIndex = 1;
 			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::textBox1_KeyPress);
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(955, 402);
+			this->ClientSize = System::Drawing::Size(716, 327);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->dataGridView1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
-			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"MyForm";
 			this->Text = L"Excel";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -127,6 +125,8 @@ namespace Excel {
 #pragma endregion
 		/*  Convert System::String to std::wstring
 		*/
+		unsigned int lastRowIndex=1, lastCollumnIndex = 1;
+
 		wchar_t* toStdWstring(String^ str) {
 			wchar_t* s = new wchar_t[str->Length + 1];
 			array <wchar_t>^ temp = str->ToCharArray();
@@ -144,13 +144,22 @@ namespace Excel {
 
 		void DeselectCell()
 		{
-			MessageBox::Show("", "DeselectCell");
 		}
 
 		void UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex)
 		{
+			if (newString == nullptr) return;
+			if (newString->Length == 0)
+			{
+				table[RowIndex][CollumnIndex]->setIsFormula(false);
+				table[RowIndex][CollumnIndex]->setValue(newString);
+				return;
+			}
+			if (newString[0] != '=')
+			{
+				return;
+			}
 
-			
 			wchar_t* value = toStdWstring(newString);
 
 			try {
@@ -172,7 +181,6 @@ namespace Excel {
 		}
 
 		bool Initialized = 0;
-		System::EventHandler^ CellChanged;
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		table = gcnew Table(50 + 1, 50 + 1);
@@ -191,8 +199,9 @@ namespace Excel {
 		for (int i = 0; i < 50; i++)
 			for (int z = 0; z <= 50; z++)
 				table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
-
-
+		dataGridView1->Width = Width + 1;
+		dataGridView1->Height = Height - dataGridView1->Top;
+		textBox1->Width = Width + 1;
 		Initialized = 1;
 	}
 
@@ -203,9 +212,9 @@ namespace Excel {
 	}
 
 	private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-		int RowIndex = e->RowIndex;
+		/*int RowIndex = e->RowIndex;
 		int CollumnIndex = e->ColumnIndex;
-		dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();
+		dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();*/
 	}
 
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -213,22 +222,35 @@ private: System::Void textBox1_TextChanged(System::Object^  sender, System::Even
 
 private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
 	if (!Initialized) return;
+	UpdateText(textBox1->Text, lastRowIndex, lastCollumnIndex);
+	lastRowIndex = dataGridView1->CurrentCell->RowIndex;
+	lastCollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
+
 	if (!dataGridView1->CurrentCell)
 	{
+		textBox1->Enabled = false;
 		DeselectCell();
 		return;
 	}
 
 	if (dataGridView1->CurrentCell->ColumnIndex == 0)
 	{
+		textBox1->Enabled = false;
 		DeselectCell();
 		textBox1->Text = "";
 	}
 	else
 	{
+		textBox1->Enabled = true;
 		ChangeCurrentCell(dataGridView1->CurrentCell->RowIndex + 1, dataGridView1->CurrentCell->ColumnIndex);
 		textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
 	}
+
+	int RowIndex = dataGridView1->CurrentCell->RowIndex;
+	int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
+	if (table[RowIndex][CollumnIndex]->getValue()->Length!=0)
+	dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();
+
 }
 
 private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
@@ -246,8 +268,8 @@ private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, Sy
 	
 	int RowIndex = dataGridView1->CurrentCell->RowIndex;
 	int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
-
-	textBox1->Text = Convert::ToString(table[RowIndex][CollumnIndex]->getValue());
+	//textBox1->Text = Convert::ToString(table[RowIndex][CollumnIndex]->getValue());
+	textBox1->Text = Convert::ToString(dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value);
 
 }
 
@@ -265,7 +287,6 @@ private: System::Void textBox1_KeyPress(System::Object^  sender, System::Windows
 		UpdateText(textBox1->Text, RowIndex, CollumnIndex);
 		textBox1->Text = Convert::ToString(table[RowIndex][CollumnIndex]->getValue());
 	}
-	
 }
 private: System::Void dataGridView1_CellEndEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 	int RowIndex = dataGridView1->CurrentCell->RowIndex;

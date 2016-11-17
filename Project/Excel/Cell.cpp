@@ -8,7 +8,9 @@ void Cell::setValue(Object^ str) {
 }
 
 String^ Cell::getValue(void) {
+	if (value)
 	return value;
+	return gcnew String("");
 }
 
 Number Cell::getResult(void) {

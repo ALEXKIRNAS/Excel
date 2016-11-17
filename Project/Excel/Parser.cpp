@@ -152,7 +152,7 @@ unsigned int opPrior(const wchar_t& ch) {
 /*  Function for parsing math expresion
  */
 Number parse(const wstring& input, Table^ table) {
-
+	if (input[0] == '\0') throw 1;
 	// Searching sybol '='
 	size_t q = 0;
 	for (; q < input.size(); q++)
