@@ -1,14 +1,29 @@
 #include "Cell.h"
 
-Cell::Cell(void) : value(nullptr), result(0), isFormula(true) {}
+Cell::Cell(void) : value(L""), result(0), isFormula(true) {}
 
-/*  Change current value of object
- */
-void Cell::change(String^ str) {
-	value = String::Copy(str);
+
+void Cell::setValue(Object^ str) {
+	value = String::Copy(Convert::ToString(str));
 }
 
-double Cell::getResult(void) {
+String^ Cell::getValue(void) {
+	return value;
+}
+
+Number Cell::getResult(void) {
 	if (isFormula) return result;
 	else throw "#Unable to calc expresion";
+}
+
+void Cell::setResult(Number res) {
+	result = res;
+}
+
+void Cell::setIsFormula(bool flag) {
+	isFormula = flag;
+}
+
+bool Cell::getIsFormula(void) {
+	return isFormula;
 }

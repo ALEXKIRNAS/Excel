@@ -3,12 +3,12 @@
 #include "Table.h"
 #include <string>
 
-using std::string;
+using std::wstring;
 
-string shuntingYard(const string& input);
-unsigned int opPrior(const char& ch);
-Number parse(const string& input,Table^ table);
-bool isElemOper(const char& ch);
-int getX_index(string& str, int index = 0);
-int getY_index(string& str, int index = 0);
-bool strcmp(string& str, int index, int element);
+wstring shuntingYard(const wstring& input);
+unsigned int opPrior(const wchar_t& ch);
+Number parse(const wstring& input,Table^ table);
+bool isElemOper(const wchar_t& ch);
+int getX_index(wstring& str, int index = 0);
+int getY_index(wstring& str, int index = 0);
+bool strcmp(wstring& str, int index, int element);

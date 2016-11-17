@@ -1,11 +1,11 @@
 #include "Parser.h"
 #include <stack>
-#include <ctype.h>
 #include <math.h>
+#define CODE_OF_STRING 0 // Defining code of simple string (no formula)
 
 #define numOfFunc 3
-const string func [] = {
-	"sin", "cos", "tan"
+const wstring func [] = {
+	L"sin", L"cos", L"tan"
 };
 
 typedef double(*functions) (double);
@@ -22,11 +22,11 @@ using System::Convert;
 /*  Rewrite expresion in postfix notation 
  *  using Shunting-yard algorithm
  */
-string shuntingYard(const string& input) {
+wstring shuntingYard(const wstring& input) {
 	// Stack for operations and functions
-	stack<string> aStack; 
+	stack<wstring> aStack; 
 	// Output string in postfix notation
-	string output("");
+	wstring output(L"");
 
 	unsigned int length = input.length();
 	unsigned int i = 0;
@@ -63,7 +63,7 @@ string shuntingYard(const string& input) {
 
 		// Process open bracket
 		else if (input[i] == '(')
-			aStack.push(string("("));
+			aStack.push(wstring(L"("));
 
 		// Process close bracket
 		else if (input[i] == ')') {
@@ -83,7 +83,7 @@ string shuntingYard(const string& input) {
 				aStack.pop();
 			}
 
-			aStack.push(string("") += input[i]);
+			aStack.push(wstring(L"") += input[i]);
 		}
 
 		// Process link
@@ -106,7 +106,7 @@ string shuntingYard(const string& input) {
 
 		// Process functions
 		else if (isalpha(input[i])) {
-			string func;
+			wstring func;
 
 			while (i < length && isalpha(input[i]))
 				func += input[i++];
@@ -116,7 +116,7 @@ string shuntingYard(const string& input) {
 
 			if (i == length || input[i] != '(') throw "#No args for function";
 			aStack.push(func);
-			aStack.push(string("("));
+			aStack.push(wstring(L"("));
 		}
 
 		// invalid input format
@@ -126,7 +126,7 @@ string shuntingYard(const string& input) {
 	}
 
 	while (!aStack.empty()) {
-		output += aStack.top() += " ";
+		output += aStack.top() += L" ";
 		aStack.pop();
 	}
 
@@ -136,7 +136,7 @@ string shuntingYard(const string& input) {
 
 /* Cheaching elementary operation priority
  */
-unsigned int opPrior(const char& ch) {
+unsigned int opPrior(const wchar_t& ch) {
 	switch (ch){
 		case '^':
 					return 3;
@@ -151,8 +151,17 @@ unsigned int opPrior(const char& ch) {
 
 /*  Function for parsing math expresion
  */
-Number parse(const string& input, Table^ table) {
-	string output = shuntingYard(input);
+Number parse(const wstring& input, Table^ table) {
+
+	// Searching sybol '='
+	size_t q = 0;
+	for (; q < input.size(); q++)
+		if (!isspace(input[q]))
+			if (input[q] == '=') break;
+			else throw CODE_OF_STRING; // if first symbol is not space or '=' then this is a general string
+
+	wstring simpleInput = input.substr(q + 1, input.size() - q); // Deleting all spaces before and symbol "="
+	wstring output = shuntingYard(simpleInput);
 
 	stack <Number> aStack;
 
@@ -167,10 +176,11 @@ Number parse(const string& input, Table^ table) {
 			i += index;
 		}
 		else if (output[i] == '$') {
-			int xIndex = getX_index(output, ++i);
+			int yIndex = getY_index(output, ++i);
+			
 
 			while (output[i] != '$') i++;
-			int yIndex = getY_index(output, ++i);
+			int xIndex = getX_index(output, ++i);
 			while (isdigit(output[i])) i++;
 
 			aStack.push(table[xIndex][yIndex]->getResult());
@@ -219,13 +229,13 @@ Number parse(const string& input, Table^ table) {
 
 /*  Cheacking is operation is elementary (+, -, *, /, ^)
  */
-bool isElemOper(const char& ch) {
+bool isElemOper(const wchar_t& ch) {
 	return (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') || (ch == '^');
 }
 
 /*  Conver X_index of table cell to digit
  */
-int getX_index(string& str, int index) {
+int getY_index(wstring& str, int index) {
 
 	int res = 0;
 	int i = index;
@@ -234,13 +244,13 @@ int getX_index(string& str, int index) {
 	if (i - index > 7) throw "#Index out of range";
 
 	while (str[index] != '$') res = res * 26 + str[index++] - 'A';
-	return res;
+	return res + 1;
 }
 
 
 /*  Conver Y_index of table cell to digit
  */
-int getY_index(string& str, int index) {
+int getX_index(wstring& str, int index) {
 	int res = 0;
 	int i = index;
 	while (isdigit(str[i])) i++;
@@ -248,12 +258,12 @@ int getY_index(string& str, int index) {
 	if (i - index > 8) throw "#Index out of range";
 
 	while (isdigit(str[index])) res = res * 10 + str[index++] - '0';
-	return res;
+	return res - 1;
 }
 
 /*  Compare two definishions of functions
  */
-bool strcmp(string& str, int index, int element) {
+bool strcmp(wstring& str, int index, int element) {
 	int i = 0;
 	for (int size = str.length(); func[element][i] && i + index <= size; i++)
 		if (func[element][i] != str[i + index]) return false;
