@@ -242,24 +242,18 @@ namespace Excel {
 				table[RowIndex][CollumnIndex]->setResult(0.0);
 				return;
 			}
-			if (newString[0] != '=')
-			{
-				//table[RowIndex][CollumnIndex]->setIsFormula(false);
-				//table[RowIndex][CollumnIndex]->setValue(newString);
-				//table[RowIndex][CollumnIndex]->setResult(0.0);
-				return;
-			}
 
 			wchar_t* value = toStdWstring(newString);
 
 			try {
-				table[RowIndex][CollumnIndex]->setResult(parse(wstring(value), table));
+				table[RowIndex][CollumnIndex]->setResult(Parser::parse(wstring(value), table));
 				table[RowIndex][CollumnIndex]->setIsFormula(true);
 				dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value = Convert::ToString(table[RowIndex][CollumnIndex]->getResult());
 			}
 			catch (char* str) {
 				String^ temp = gcnew String(str);
 				dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value = temp;
+				table[RowIndex][CollumnIndex]->setIsFormula(false);
 			}
 			catch (int value) {
 				table[RowIndex][CollumnIndex]->setIsFormula(false);
@@ -304,16 +298,16 @@ namespace Excel {
 	}
 
 	private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-		/*int RowIndex = e->RowIndex;
+		int RowIndex = e->RowIndex;
 		int CollumnIndex = e->ColumnIndex;
-		dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();*/
+		dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();
 	}
 
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 
 private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
-	if (!Initialized) return;
+	/*if (!Initialized) return;
 	UpdateText(textBox1->Text, lastRowIndex, lastCollumnIndex);
 	lastRowIndex = dataGridView1->CurrentCell->RowIndex;
 	lastCollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
@@ -342,7 +336,7 @@ private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, 
 	int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
 	if (table[RowIndex][CollumnIndex]->getValue()->Length!=0)
 	dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();
-
+	*/
 }
 
 private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
