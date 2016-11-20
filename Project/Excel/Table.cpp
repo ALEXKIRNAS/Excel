@@ -16,6 +16,8 @@ Table::Table(unsigned int height, unsigned int width) {
 		for (int z = 0; z < width; z++)
 			table[i][z] = gcnew Cell;
 	}
+
+	graph = gcnew Graph(height, width);
 }
 
 /*  Getter for height atribute
@@ -32,7 +34,7 @@ unsigned int Table::getWidth(void) {
 
 /*  Overload operation [] for direct access to elements
  */
-vector <Cell^>^ Table::operator[] (int index) {
+vector <Cell^>^ Table::operator[] (unsigned int index) {
 	return table[index];
 }
 
@@ -46,4 +48,8 @@ void Table::changeHeight(int delta) {
 */
 void Table::changeWidth(int delta) {
 	width += delta;
+}
+
+Graph^ Table::getGraph(void) {
+	return graph;
 }

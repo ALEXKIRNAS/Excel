@@ -148,7 +148,7 @@ bool Parser::isElemOper(const wchar_t& ch) {
 	return (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') || (ch == '^');
 }
 
-/*  Conver X_index of table cell to digit
+/*  Conver Y_index of table cell to digit
  */
 int Parser::getY_index(wstring& str, int index) {
 
@@ -162,7 +162,7 @@ int Parser::getY_index(wstring& str, int index) {
 	return res + 1;
 }
 
-/*  Conver Y_index of table cell to digit
+/*  Conver X_index of table cell to digit
  */
 int Parser::getX_index(wstring& str, int index) {
 	int res = 0;

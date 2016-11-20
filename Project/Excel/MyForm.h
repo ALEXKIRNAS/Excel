@@ -261,6 +261,7 @@ namespace Excel {
 
 			delete[] value;
 
+			table->getGraph()->changeGraph(dataGridView1, table, RowIndex, CollumnIndex);
 			table[RowIndex][CollumnIndex]->setValue(newString);
 		}
 
