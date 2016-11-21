@@ -1,6 +1,7 @@
 #pragma once
 #include "Table.h"
 #include "Parser.h"
+#include "Graph.h"
 #include <string>
 #include "UserIO.h"
 using std::string;
@@ -45,6 +46,7 @@ namespace Excel {
 	private: System::Windows::Forms::DataGridView^  dataGridView1;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Spacer;
 	private: Table^ table;
+	private: Graph^ graph;
 	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
@@ -261,7 +263,7 @@ namespace Excel {
 
 			delete[] value;
 
-			table->getGraph()->changeGraph(dataGridView1, table, RowIndex, CollumnIndex);
+			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
 			table[RowIndex][CollumnIndex]->setValue(newString);
 		}
 
@@ -269,6 +271,7 @@ namespace Excel {
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		table = gcnew Table(150 + 1, 150 + 1);
+		graph = gcnew Graph(150 + 1, 150 + 1);
 
 		dataGridView1->Rows->Add(150);
 		char s1[2] = "A";

@@ -16,8 +16,6 @@ Table::Table(unsigned int height, unsigned int width) {
 		for (int z = 0; z < width; z++)
 			table[i][z] = gcnew Cell;
 	}
-
-	graph = gcnew Graph(height, width);
 }
 
 /*  Getter for height atribute
@@ -48,8 +46,4 @@ void Table::changeHeight(int delta) {
 */
 void Table::changeWidth(int delta) {
 	width += delta;
-}
-
-Graph^ Table::getGraph(void) {
-	return graph;
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "Cell.h"
 #include <cliext\vector>
-#include "Graph.h"
 
 using cliext::vector;
 
@@ -19,9 +18,6 @@ private:
 	// Table
 	vector < vector <Cell^>^ > table;
 
-	// Graph class for recalculation dependent cells
-	Graph^ graph;
-
 public:
 
 	Table(unsigned int height, unsigned int width);
@@ -36,7 +32,4 @@ public:
 	// Changers of demensions
 	void changeHeight(int delta);
 	void changeWidth(int delta);
-
-	Graph^ getGraph(void);
-
 };
