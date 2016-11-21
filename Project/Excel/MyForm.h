@@ -250,20 +250,23 @@ namespace Excel {
 			try {
 				table[RowIndex][CollumnIndex]->setResult(Parser::parse(wstring(value), table));
 				table[RowIndex][CollumnIndex]->setIsFormula(true);
+
+				graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
 				dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value = Convert::ToString(table[RowIndex][CollumnIndex]->getResult());
 			}
 			catch (char* str) {
+				table[RowIndex][CollumnIndex]->setIsFormula(false);
+				graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
+
 				String^ temp = gcnew String(str);
 				dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value = temp;
-				table[RowIndex][CollumnIndex]->setIsFormula(false);
 			}
 			catch (int value) {
 				table[RowIndex][CollumnIndex]->setIsFormula(false);
+				graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
 			}
 
 			delete[] value;
-
-			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
 			table[RowIndex][CollumnIndex]->setValue(newString);
 		}
 
@@ -311,11 +314,8 @@ private: System::Void textBox1_TextChanged(System::Object^  sender, System::Even
 }
 
 private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
-	/*if (!Initialized) return;
-	UpdateText(textBox1->Text, lastRowIndex, lastCollumnIndex);
-	lastRowIndex = dataGridView1->CurrentCell->RowIndex;
-	lastCollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
-
+	if (!Initialized) return;
+	
 	if (!dataGridView1->CurrentCell)
 	{
 		textBox1->Enabled = false;
@@ -331,16 +331,13 @@ private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, 
 	}
 	else
 	{
+		int RowIndex = dataGridView1->CurrentCell->RowIndex;
+		int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
 		textBox1->Enabled = true;
 		ChangeCurrentCell(dataGridView1->CurrentCell->RowIndex + 1, dataGridView1->CurrentCell->ColumnIndex);
-		textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
+		//textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
+		textBox1->Text = Convert::ToString(table[RowIndex][CollumnIndex]->getValue());
 	}
-
-	int RowIndex = dataGridView1->CurrentCell->RowIndex;
-	int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
-	if (table[RowIndex][CollumnIndex]->getValue()->Length!=0)
-	dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();
-	*/
 }
 
 private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {

@@ -33,7 +33,7 @@ private:
 				unsigned int y = getY(str, ++i, width);
 				unsigned int x = getX(str, ++i, height);
 
-				res->push_back(x * 1ll * height  * y);
+				res->push_back(x * 1ll * height  + y);
 			}
 
 			return;
@@ -46,7 +46,7 @@ private:
 		// Set of visited cells
 		set <unsigned __int64>^ visited = gcnew set <unsigned __int64>;
 
-		bool isCircle = dfs(row * 1ll * column, res, visited, height, width);
+		bool isCircle = dfs(row * 1ll * height + column, res, visited, height, width);
 
 		if (isCircle) res->push_back(CIRCLE_REFERENCE);
 		return;
@@ -94,11 +94,11 @@ private:
 		unsigned int res = 0;
 
 		int i = index;
-		while (isdigit(str[i])) i++;
+		while (i < str->Length && isdigit(str[i])) i++;
 
 		if (i - index > 8) throw "#Index out of range";
 
-		while (isdigit(str[index])) res = res * 10 + str[index++] - '0';
+		while (index < str->Length &&  isdigit(str[index])) res = res * 10 + str[index++] - '0';
 
 
 		if (res - 1 > max) throw "#Index out of range";
@@ -133,33 +133,35 @@ public:
 
 		// Delete old depends
 		for (int i = 0, size = oldList->size(); i < size; i++)
-			graph[oldList[i] / table->getHeight()]->at(oldList[i] % table->getHeight())->erase(row*column);
+			graph[oldList[i] / table->getHeight()]->at(oldList[i] % table->getHeight())->erase(row*table->getHeight() + column);
 
 		// Adding new depends
 		for (int i = 0, size = newList->size(); i < size; i++)
-			graph[newList[i] / table->getHeight()]->at(newList[i] % table->getHeight())->insert(row*column);
+			graph[newList[i] / table->getHeight()]->at(newList[i] % table->getHeight())->insert(row*table->getHeight() + column);
 
 		// Getting dependent cells in topological order
 		vector <unsigned __int64>^ order = gcnew vector <unsigned __int64>;
 		topologicalSort(row, column, table->getHeight(), table->getWidth(), order);
 
 		// Recalculation of dependent cells
-		if (order->back() == CIRCLE_REFERENCE)
-			for (int i = 0, size = order->size(); i < size; i++) {
-				unsigned int x = order[i] / table->getHeight();
-				unsigned int y = order[i] % table->getHeight();
-				view->Rows[x]->Cells[y]->Value = Convert::ToString(L"#Circle reference");
-				table[x][y]->setIsFormula(false);
-			}
-
-		else
-			for (int i = 0, size = order->size(); i < size; i++) {
+		for (int i = order->size() - 2; i >= 0; i--) {
 				unsigned int x = order[i] / table->getHeight();
 				unsigned int y = order[i] % table->getHeight();
 				wchar_t* input = toStdWstring(table[x][y]->getValue());
 
-				table[x][y]->setResult(Parser::parse(input, table));
-				view->Rows[x]->Cells[y]->Value = Convert::ToString(table[x][y]->getResult());
+				try {
+					table[x][y]->setResult(Parser::parse(input, table));
+					table[x][y]->setIsFormula(true);
+					view->Rows[x]->Cells[y]->Value = Convert::ToString(table[x][y]->getResult());
+				}
+				catch (char* str) {
+					String^ temp = gcnew String(str);
+					view->Rows[x]->Cells[y]->Value = temp;
+					table[x][y]->setIsFormula(false);
+				}
+				catch (int value) {
+					table[x][y]->setIsFormula(false);
+				}
 			}
 	}
 
