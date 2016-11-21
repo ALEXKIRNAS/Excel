@@ -83,9 +83,9 @@ namespace Excel {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->menuStrip1->SuspendLayout();
@@ -97,12 +97,13 @@ namespace Excel {
 			this->dataGridView1->AllowUserToDeleteRows = false;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(1) { this->Spacer });
-			this->dataGridView1->Location = System::Drawing::Point(-1, 60);
+			this->dataGridView1->Location = System::Drawing::Point(0, 53);
 			this->dataGridView1->MultiSelect = false;
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersVisible = false;
 			this->dataGridView1->Size = System::Drawing::Size(153, 68);
 			this->dataGridView1->TabIndex = 0;
+			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
 			this->dataGridView1->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellContentClick);
 			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
 			this->dataGridView1->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellValueChanged);
@@ -116,9 +117,9 @@ namespace Excel {
 			// textBox1
 			// 
 			this->textBox1->Enabled = false;
-			this->textBox1->Location = System::Drawing::Point(-1, 34);
+			this->textBox1->Location = System::Drawing::Point(0, 27);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(63, 20);
+			this->textBox1->Size = System::Drawing::Size(153, 20);
 			this->textBox1->TabIndex = 1;
 			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::textBox1_KeyPress);
@@ -145,18 +146,12 @@ namespace Excel {
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
-			// helpToolStripMenuItem
-			// 
-			this->helpToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
-			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
-			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
-			this->helpToolStripMenuItem->Text = L"Help";
-			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
 			this->openToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->openToolStripMenuItem->Text = L"Open";
+			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -165,10 +160,17 @@ namespace Excel {
 			this->saveToolStripMenuItem->Text = L"Save";
 			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
+			// helpToolStripMenuItem
+			// 
+			this->helpToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
+			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
+			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
+			this->helpToolStripMenuItem->Text = L"Help";
+			// 
 			// aboutToolStripMenuItem
 			// 
 			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
-			this->aboutToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->aboutToolStripMenuItem->Size = System::Drawing::Size(107, 22);
 			this->aboutToolStripMenuItem->Text = L"About";
 			// 
 			// MyForm
@@ -273,13 +275,13 @@ namespace Excel {
 		bool Initialized = 0;
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-		table = gcnew Table(150 + 1, 150 + 1);
-		graph = gcnew Graph(150 + 1, 150 + 1);
+		table = gcnew Table(50 + 1, 50 + 1);
+		graph = gcnew Graph(50 + 1, 50 + 1);
 
-		dataGridView1->Rows->Add(150);
+		dataGridView1->Rows->Add(50);
 		char s1[2] = "A";
 		dataGridView1->Columns[0]->Width = 60;
-		for (int i = 1; i <= 150; i++)
+		for (int i = 1; i <= 50; i++)
 		{
 			//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
 			dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
@@ -289,8 +291,8 @@ namespace Excel {
 			s1[0]++;
 		}
 
-		for (int i = 0; i < 150; i++)
-			for (int z = 0; z <= 150; z++)
+		for (int i = 0; i < 50; i++)
+			for (int z = 0; z <= 50; z++)
 				table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
 		dataGridView1->Width = Width + 1;
 		dataGridView1->Height = Height - dataGridView1->Top;
@@ -336,7 +338,6 @@ private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, 
 		textBox1->Enabled = true;
 		ChangeCurrentCell(dataGridView1->CurrentCell->RowIndex + 1, dataGridView1->CurrentCell->ColumnIndex);
 		//textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
-		textBox1->Text = Convert::ToString(table[RowIndex][CollumnIndex]->getValue());
 	}
 }
 
@@ -388,28 +389,92 @@ private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, Syste
 		Stream^ saveFile = saveFileDialog1.OpenFile();
 		if (saveFile != nullptr)
 		{
-			try 
+/*			try*/ 
 			{
-				UnicodeEncoding unicodeEncoding;
 				int RowCount = dataGridView1->Rows->Count;
 				int ColumnCount = dataGridView1->Columns->Count;
 				saveFile->Write(BitConverter::GetBytes(RowCount), 0, sizeof(int));
 				saveFile->Write(BitConverter::GetBytes(ColumnCount), 0, sizeof(int));
 				for (int i = 0; i < RowCount; i++)
-					for (int j = 0; j < ColumnCount; j++)
+					for (int j = 1; j < ColumnCount; j++)
 					{
-						array <unsigned char>^ temp = unicodeEncoding.GetBytes(Convert::ToString(dataGridView1->Rows[i]->Cells[j]->Value));
-						saveFile->Write(temp,0,temp->Length);
+						Cell^ cell = table[i][j];
+						String^ str = cell->getValue();
+						int length = str->Length;
+						saveFile->Write(BitConverter::GetBytes(length), 0, sizeof(int));
+						for (int k = 0; k < length; k++)
+						{
+							saveFile->WriteByte(str[k] >> 8);
+							saveFile->WriteByte(str[k]);
+						}
 					}
+				saveFile->Close();
 			}
-			catch (...)
-			{
-				MessageBox::Show("Processing file", "Error");
-			}
+			//catch (...)
+			//{
+			//	MessageBox::Show("Error Processing file", "Error");
+			//}
 		}
 		else
 			MessageBox::Show("Error opening file", "Error");
 	}
+}
+	private: System::Void openToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		OpenFileDialog openFileDialog1;
+		openFileDialog1.Filter = "Table file (*.adc)|*.adc";
+		if (openFileDialog1.ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			Stream^ saveFile = openFileDialog1.OpenFile();
+			if (saveFile != nullptr)
+			{
+				try
+				{
+					cli::array <unsigned char>^ temp = gcnew cli::array <unsigned char>(sizeof(int));
+					saveFile->Read(temp, 0, sizeof(int));
+					int RowCount = BitConverter::ToInt32(temp, 0);
+					saveFile->Read(temp, 0, sizeof(int));
+					int ColumnCount = BitConverter::ToInt32(temp, 0);
+					for (int i = 0; i < RowCount; i++)
+						for (int j = 1; j < ColumnCount; j++)
+						{
+							saveFile->Read(temp, 0, sizeof(int));
+							int length = BitConverter::ToInt32(temp, 0);
+							wchar_t* str = new wchar_t[length+1];
+							for (int k = 0; k < length; k++)
+							{
+								//saveFile->Read(temp, 0, sizeof(wchar_t));
+								wchar_t s1,s2;
+								s1 = saveFile->ReadByte();
+								s2 = saveFile->ReadByte();
+								s2 = s2 + (s1 << 8);
+								str[k] = s2;
+							}
+							str[length] = L'\0';
+							String^ newString = gcnew String(str);
+							dataGridView1->Rows[i]->Cells[j]->Value = newString;
+							try
+							{
+								UpdateText(newString, i, j);
+							}
+							catch(...)
+							{
+								
+							}
+							delete[] str;
+						}
+					saveFile->Close();
+				}
+				catch (...)
+				{
+					MessageBox::Show("Error Processing file", "Error");
+				}
+			}
+			else
+				MessageBox::Show("Error opening file", "Error");
+
+		}
+	}
+private: System::Void dataGridView1_CellBeginEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^  e) {
 }
 };
 };
