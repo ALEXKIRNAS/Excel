@@ -48,7 +48,7 @@ private:
 
 		bool isCircle = dfs(row * 1ll * height + column, res, visited, height, width);
 
-		if (isCircle) res->push_back(CIRCLE_REFERENCE);
+		//if (isCircle) res->push_back(CIRCLE_REFERENCE);
 		return;
 	}
 
