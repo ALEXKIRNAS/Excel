@@ -324,28 +324,32 @@ private: System::Void textBox1_TextChanged(System::Object^  sender, System::Even
 
 private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
 	if (!Initialized) return;
-	
+
+	int RowIndex = dataGridView1->CurrentCell->RowIndex;
+	int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
+	try
+	{
+		textBox1->Text = table[RowIndex][CollumnIndex]->getValue();
+	}
+	catch (...)
+	{
+		textBox1->Text = "";
+	}
 	if (!dataGridView1->CurrentCell)
 	{
 		textBox1->Enabled = false;
+		textBox1->Text = "";
 		DeselectCell();
 		return;
 	}
-
 	if (dataGridView1->CurrentCell->ColumnIndex == 0)
 	{
 		textBox1->Enabled = false;
-		DeselectCell();
 		textBox1->Text = "";
+		DeselectCell();
+		return;
 	}
-	else
-	{
-		int RowIndex = dataGridView1->CurrentCell->RowIndex;
-		int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
-		textBox1->Enabled = true;
-		ChangeCurrentCell(dataGridView1->CurrentCell->RowIndex + 1, dataGridView1->CurrentCell->ColumnIndex);
-		//textBox1->Text = Convert::ToString(dataGridView1->CurrentCell->Value);
-	}
+	textBox1->Enabled = true;
 }
 
 private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
@@ -387,6 +391,7 @@ private: System::Void dataGridView1_CellEndEdit(System::Object^  sender, System:
 	int RowIndex = dataGridView1->CurrentCell->RowIndex;
 	int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
 	UpdateText(Convert::ToString(dataGridView1->CurrentCell->Value), RowIndex, CollumnIndex);
+	textBox1->Text = table[RowIndex][CollumnIndex]->getValue();
 }
 private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	SaveFileDialog saveFileDialog1;
