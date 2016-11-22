@@ -44,7 +44,7 @@ wstring Parser::shuntingYard(const wstring& input) {
 		if (i == length) break;
 
 		// Process number
-		if (isdigit(input[i]) || (input[i] == '-' && i == 0) || (i > 0 && !aStack.empty() && aStack.top()[0] == L'(' && input[i] == L'-'))
+		if (isdigit(input[i]))
 			processNumbers(input, output, i);
 
 		// Process open bracket
@@ -122,11 +122,11 @@ Number Parser::parse(const wstring& input, Table^ table) {
 		if (i == length) break;
 
 		// Calculate number and push it in the stack
-		else if (isdigit(output[i]))
+		else if (isdigit(output[i]) || (i + 1 < length && output[i] == L'-' && isdigit(output[i+1])))
 			calculateNumber(output, aStack, i);
 
 		// Select from table number from link and push it in the stack
-		else if (output[i] == L'$')
+		else if (output[i] == L'$' || (i + 1 < length && output[i] == L'-' && output[i+1] == L'$'))
 			calculateLink(table, output, aStack, i);
 
 		// Release elementary operations with stack elements
@@ -192,7 +192,12 @@ void Parser::processNumbers(const wstring& input, wstring& output, unsigned int&
 	int length = input.size();
 
 	// Adding sign if this nessasary
-	if (input[i] == '-') output += L'-';
+	if (input[i] == '-') {
+		output += L'-';
+
+		while(i < length && !isdigit(input[i])) i++;
+		if (i == length) throw "#Bad number";
+	}
 
 	// Variable that show is point read already
 	bool isPoint = false;
@@ -230,6 +235,12 @@ void Parser::processCloseBracket(const wstring& input, wstring& output, stack<ws
 /*  Porcessing elementary operations
  */
 void Parser::processElemOperations(const wstring& input, wstring& output, stack<wstring>& aStack, unsigned int& i) {
+	if (input[i] == L'-') 
+		if (output.empty() || (!aStack.empty() && aStack.top()[0] == L'(')) {
+			output += L'-';
+			return;
+		}
+
 	while (!aStack.empty() && isElemOper(aStack.top()[0]) && (opPrior(aStack.top()[0]) >= opPrior(input[i]))) {
 		output += aStack.top() += ' ';
 		aStack.pop();
@@ -288,13 +299,21 @@ void Parser::calculateNumber(wstring& output, stack<Number>& aStack, size_t& i) 
 /*  Select from table number from link and push it in the stack
  */
 void Parser::calculateLink(Table^ table, wstring& output, stack<Number>& aStack, size_t& i) {
+	
+	int koef;
+	if (output[i] == L'-') {
+		koef = -1;
+		i++;
+	}
+	else koef = 1;
+
 	int yIndex = getY_index(output, ++i);
 
 	while (output[i] != '$') i++;
 	int xIndex = getX_index(output, ++i);
 	while (isdigit(output[i])) i++;
 
-	aStack.push(table[xIndex][yIndex]->getResult());
+	aStack.push(koef * table[xIndex][yIndex]->getResult());
 }
 
 /*  Release elementary operations with stack elements
@@ -438,13 +457,23 @@ Number Parser::isOnlyOneDigit(const wstring& input, int i) {
 	size_t length = input.size();
 
 	while (i < length && isspace(input[i])) i++;
-	if (!isdigit(input[i])) throw 0;
+	if (input[i] != L'-' && !isdigit(input[i])) throw 0;
+
+	int koef;
+	if (input[i] == L'-') {
+		koef = -1;
+		i++;
+	}
+	else koef = 1;
 	
+	while (i < length && isspace(input[i])) i++;
+	if (!isdigit(input[i])) throw 0;
+
 	Number t = std::stod(input.substr(i), &index);
 
 	i += index;
 	while (i < length && isspace(input[i])) i++;
 
 	if (i != length) throw 0;
-	else return t;
+	else return t * koef;
 }
