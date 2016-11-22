@@ -523,6 +523,7 @@ private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, Syste
 private: System::Void dataGridView1_CellBeginEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^  e) {
 }
 private: System::Void newToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	Initialized = false;
 	Excel::MyForm1^ form = gcnew Excel::MyForm1;
 	form->ShowDialog();
 	if (!form->good) return;
