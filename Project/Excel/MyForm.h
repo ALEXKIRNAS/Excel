@@ -432,6 +432,7 @@ private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, Syste
 	}
 }
 	private: System::Void openToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		Initialized = false;
 		OpenFileDialog openFileDialog1;
 		openFileDialog1.Filter = "Table file (*.adc)|*.adc";
 		if (openFileDialog1.ShowDialog() == System::Windows::Forms::DialogResult::OK)
