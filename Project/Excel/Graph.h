@@ -1,13 +1,13 @@
 #pragma once
 #include <cliext\vector>
 #include <cliext\set>
+#include <cliext\map>
 #include "Table.h"
 #include "Parser.h"
 
-#define CIRCLE_REFERENCE 18446744073709551615ll
-
 using cliext::vector;
 using cliext::set;
+using cliext::map;
 using namespace System::Windows::Forms;
 using System::String;
 
@@ -41,36 +41,44 @@ private:
 
 	/*  Make topological sort of cells that depend from current cell
 	*/
-	void topologicalSort(unsigned int row, unsigned int column, unsigned int height, unsigned int width, vector <unsigned __int64>^ res) {
+	void topologicalSort(unsigned int row, unsigned int column, Table^ table, vector <unsigned __int64>^ res, set <unsigned __int64>^ circles) {
+		unsigned int height = table->getHeight();
 
 		// Set of visited cells
-		set <unsigned __int64>^ visited = gcnew set <unsigned __int64>;
+		map <unsigned __int64, char>^ visited = gcnew map <unsigned __int64, char>;
 
-		bool isCircle = dfs(row * 1ll * height + column, res, visited, height, width);
+		dfs(row * 1ll * height + column, res, visited, circles, height);
 
-		//if (isCircle) res->push_back(CIRCLE_REFERENCE);
 		return;
 	}
 
 	/*  Release dfs algorithm for topological sort
 	*/
-	bool Graph::dfs(unsigned __int64 v, vector <unsigned __int64>^ res, set <unsigned __int64>^ visit, unsigned int& height, unsigned int& width) {
-		visit->insert(v);
+	void Graph::dfs(unsigned __int64 v, vector <unsigned __int64>^ res, map <unsigned __int64, char>^ visit, set <unsigned __int64>^ circles, unsigned int& height) {
+		// Setting cell state as in process
+		visit[v] = 1;
 
-		bool isCircle = false;
 		unsigned int x = v / height;
 		unsigned int y = v % height;
 
+		// Flag that shows statet of processing cell
+		register char flag;
+
 		for (auto iter = graph[x]->at(y)->begin(), end = graph[x]->at(y)->end(); iter != end; iter++) {
-			if (visit->find(*iter) != visit->end()) {
-				isCircle = true;
-				continue;
+			flag = visit[*iter];
+
+			switch (flag) {
+				case 0: dfs(*iter, res, visit, circles, height); continue;
+				case 1: circles->insert(*iter);  continue;
+				case 2: continue;
 			}
-			isCircle |= dfs(*iter, res, visit, height, width);
 		}
 
+		// Setting cell state as processed
+		visit[v] = 2;
+
+		// Pushing current cell in order 
 		res->push_back(v);
-		return isCircle;
 	}
 
 	/*  Conver Y_index of table cell to digit
@@ -141,12 +149,27 @@ public:
 
 		// Getting dependent cells in topological order
 		vector <unsigned __int64>^ order = gcnew vector <unsigned __int64>;
-		topologicalSort(row, column, table->getHeight(), table->getWidth(), order);
+
+		// Adding cells where start and end circle
+		set <unsigned __int64>^ circles = gcnew set <unsigned __int64>;
+
+		topologicalSort(row, column, table, order, circles);
 
 		// Recalculation of dependent cells
-		for (int i = order->size() - 2; i >= 0; i--) {
+		for (int i = order->size() - 1; i >= 0; i--) {
 				unsigned int x = order[i] / table->getHeight();
 				unsigned int y = order[i] % table->getHeight();
+
+				// If we have a circle in this point
+				if (circles->find(order[i]) != circles->end()) {
+					view->Rows[x]->Cells[y]->Value = Convert::ToString(L"#Unable to calculate");
+					table[x][y]->setIsFormula(false);
+					continue;
+				}
+
+				// We already caclculate value of this (start) cell
+				if (i == order->size() - 1) continue;
+
 				wchar_t* input = toStdWstring(table[x][y]->getValue());
 
 				try {
