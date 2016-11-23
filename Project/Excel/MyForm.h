@@ -387,10 +387,12 @@ namespace Excel {
 		dataGridView1->Rows->Add(rows);
 		char s1[2] = "A";
 		dataGridView1->Columns[0]->Width = 60;
+		dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
 		for (int i = 1; i <= cols; i++)
 		{
 			//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
 			dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
+			dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
 			dataGridView1->Columns[i]->Width = 60;
 			dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
 			dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
@@ -560,15 +562,15 @@ private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, Syste
 					dataGridView1->Columns->Add("", "");
 					dataGridView1->Rows->Add(rows);
 					dataGridView1->Columns[0]->Width = 60;
-					char s1[2] = "A";
+					dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
 					for (int i = 1; i <= cols; i++)
 					{
 						//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
 						dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
+						dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
 						dataGridView1->Columns[i]->Width = 60;
 						dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
 						dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
-						s1[0]++;
 					}
 					for (int i = 0; i < rows; i++)
 						for (int z = 0; z <= cols; z++)
@@ -642,11 +644,13 @@ private: System::Void newToolStripMenuItem_Click(System::Object^  sender, System
 	dataGridView1->Columns->Add("", "");
 	dataGridView1->Rows->Add(rows);
 	dataGridView1->Columns[0]->Width = 60;
+	dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
 	char s1[2] = "A";
 	for (int i = 1; i <= cols; i++)
 	{
 		//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
 		dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
+		dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
 		dataGridView1->Columns[i]->Width = 60;
 		dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
 		dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
@@ -691,11 +695,13 @@ private: System::Void toolStripMenuItem2_Click(System::Object^  sender, System::
 			dataGridView1->Columns->Add("", "");
 			dataGridView1->Rows->Add(rows);
 			dataGridView1->Columns[0]->Width = 60;
+			dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
 			char s1[2] = "A";
 			for (int i = 1; i <= cols; i++)
 			{
 				//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
 				dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
+				dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
 				dataGridView1->Columns[i]->Width = 60;
 				dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
 				dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
