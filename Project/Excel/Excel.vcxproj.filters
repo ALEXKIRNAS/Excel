@@ -39,6 +39,9 @@
     <ClCompile Include="MyForm2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyForm3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -74,6 +77,9 @@
     <ClInclude Include="MyForm2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyForm3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Excel.rc">
@@ -87,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm1.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm2.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
