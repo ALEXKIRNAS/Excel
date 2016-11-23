@@ -478,6 +478,7 @@ private: System::Void textBox1_KeyPress(System::Object^  sender, System::Windows
 	if (e->KeyChar == (char)13) {
 		int RowIndex = dataGridView1->CurrentCell->RowIndex;
 		int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
+		dataGridView1->CurrentCell->Value = textBox1->Text;
 		UpdateText(textBox1->Text, RowIndex, CollumnIndex);
 		textBox1->Text = Convert::ToString(table[RowIndex][CollumnIndex]->getValue());
 	}
