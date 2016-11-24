@@ -5,8 +5,10 @@
 #include "MyForm1.h"
 #include "MyForm2.h"
 #include "MyForm3.h"
-#include <string>
 #include "UserIO.h"
+#include <string>
+#include <ctime>
+
 using std::string;
 
 namespace Excel {
@@ -342,12 +344,26 @@ namespace Excel {
 
 		void UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex)
 		{
-			if (newString == nullptr) return;
+			label1->Text = "Processing...";
+			label2->Text = "";
+			clock_t begin = clock();
+
+			if (newString == nullptr) {
+
+				label1->Text = "Ready.";
+				label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
+
+				return;
+			}
 			if (newString->Length == 0)
 			{
 				table[RowIndex][CollumnIndex]->setIsFormula(false);
 				table[RowIndex][CollumnIndex]->setValue(newString);
 				table[RowIndex][CollumnIndex]->setResult(0.0);
+
+				label1->Text = "Ready.";
+				label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
+
 				return;
 			}
 
@@ -374,11 +390,17 @@ namespace Excel {
 
 			delete[] value;
 			table[RowIndex][CollumnIndex]->setValue(newString);
+
+			label1->Text = "Ready.";
+			label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
 		}
 
 		bool Initialized = 0;
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		label1->Text = "Ready.";
+		label2->Text = "";
+
 		int rows=50, cols=50;
 		table = gcnew Table(rows + 1, cols + 1);
 		graph = gcnew Graph(rows + 1, cols + 1);
