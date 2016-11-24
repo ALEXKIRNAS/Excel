@@ -67,6 +67,7 @@ namespace Excel {
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::ToolStripMenuItem^  closeToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  functionsToolStripMenuItem;
+	private: System::Windows::Forms::DataGridView^  dataGridView2;
 
 
 
@@ -112,8 +113,10 @@ namespace Excel {
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// textBox1
@@ -206,14 +209,14 @@ namespace Excel {
 			// functionsToolStripMenuItem
 			// 
 			this->functionsToolStripMenuItem->Name = L"functionsToolStripMenuItem";
-			this->functionsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->functionsToolStripMenuItem->Size = System::Drawing::Size(107, 22);
 			this->functionsToolStripMenuItem->Text = L"Docs";
 			this->functionsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::functionsToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
-			this->aboutToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->aboutToolStripMenuItem->Size = System::Drawing::Size(107, 22);
 			this->aboutToolStripMenuItem->Text = L"About";
 			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::aboutToolStripMenuItem_Click);
 			// 
@@ -225,17 +228,18 @@ namespace Excel {
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Location = System::Drawing::Point(0, 46);
+			this->dataGridView1->Location = System::Drawing::Point(59, 46);
 			this->dataGridView1->MultiSelect = false;
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersVisible = false;
-			this->dataGridView1->Size = System::Drawing::Size(716, 260);
+			this->dataGridView1->Size = System::Drawing::Size(657, 260);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
 			this->dataGridView1->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellContentClick);
 			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
 			this->dataGridView1->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellValueChanged);
 			this->dataGridView1->CurrentCellChanged += gcnew System::EventHandler(this, &MyForm::dataGridView1_CurrentCellChanged);
+			this->dataGridView1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MyForm::dataGridView1_Scroll);
 			// 
 			// label1
 			// 
@@ -257,11 +261,27 @@ namespace Excel {
 			this->label2->TabIndex = 4;
 			this->label2->Text = L"label2";
 			// 
+			// dataGridView2
+			// 
+			this->dataGridView2->AllowUserToAddRows = false;
+			this->dataGridView2->AllowUserToDeleteRows = false;
+			this->dataGridView2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left));
+			this->dataGridView2->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridView2->Location = System::Drawing::Point(0, 46);
+			this->dataGridView2->Name = L"dataGridView2";
+			this->dataGridView2->RowHeadersVisible = false;
+			this->dataGridView2->ScrollBars = System::Windows::Forms::ScrollBars::None;
+			this->dataGridView2->Size = System::Drawing::Size(60, 242);
+			this->dataGridView2->TabIndex = 5;
+			this->dataGridView2->CurrentCellChanged += gcnew System::EventHandler(this, &MyForm::dataGridView2_CurrentCellChanged);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(716, 327);
+			this->Controls->Add(this->dataGridView2);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->dataGridView1);
@@ -276,6 +296,7 @@ namespace Excel {
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -334,12 +355,56 @@ namespace Excel {
 			return s;
 		}
 
-		void ChangeCurrentCell(unsigned int RowIndex, unsigned int CollumnIndex)//Numeration from 1
+		void DeleteTable()
 		{
+			dataGridView2->Columns->Remove(dataGridView2->Columns[0]);
+			int cnt1 = dataGridView1->Columns->Count;
+			for (int i = 0; i < cnt1; i++)
+			{
+				dataGridView1->Columns->Remove(dataGridView1->Columns[0]);
+			}
+			int cnt2 = dataGridView1->Rows->Count;
+			for (int i = 0; i < cnt2; i++)
+			{
+				dataGridView1->Rows->Remove(dataGridView1->Rows[0]);
+			}
 		}
-
-		void DeselectCell()
+		void CreateTable(int RowCount,int ColumnCount)
 		{
+			Initialized = 0;
+			int rows = RowCount, cols = ColumnCount;
+			table = gcnew Table(rows + 1, cols + 1);
+			graph = gcnew Graph(rows + 1, cols + 1);
+			dataGridView2->Columns->Add(" ", " ");
+			dataGridView2->Rows->Add(rows);
+			dataGridView2->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
+			dataGridView1->Columns->Add("", "");
+			dataGridView1->Columns[0]->Visible = false;
+			dataGridView1->Rows->Add(rows);
+			char s1[2] = "A";
+			dataGridView1->Columns[0]->Width = 60;
+			dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
+			for (int i = 1; i <= cols; i++)
+			{
+				//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
+				dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
+				dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
+				dataGridView1->Columns[i]->Width = 60;
+				dataGridView2->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
+				dataGridView2->Rows[i - 1]->Cells[0]->ReadOnly = true;
+				s1[0]++;
+			}
+			dataGridView2->ClearSelection();
+			for (int i = 0; i < rows; i++)
+				for (int z = 0; z <= cols; z++)
+					table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
+			Initialized = 1;
+			
+		}
+		void ReCreateTable(int RowCount, int ColumnCount)
+		{
+			DeleteTable();
+			CreateTable(RowCount,ColumnCount);
 		}
 
 		void UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex)
@@ -400,34 +465,13 @@ namespace Excel {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		label1->Text = "Ready.";
 		label2->Text = "";
-
-		int rows=50, cols=50;
-		table = gcnew Table(rows + 1, cols + 1);
-		graph = gcnew Graph(rows + 1, cols + 1);
-
-		dataGridView1->Columns->Add("", "");
-		dataGridView1->Rows->Add(rows);
-		char s1[2] = "A";
-		dataGridView1->Columns[0]->Width = 60;
-		dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
-		for (int i = 1; i <= cols; i++)
-		{
-			//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
-			dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
-			dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
-			dataGridView1->Columns[i]->Width = 60;
-			dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
-			dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
-			s1[0]++;
-		}
-
-		for (int i = 0; i < rows; i++)
-			for (int z = 0; z <= cols; z++)
-				table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
-		//dataGridView1->Width = Width -17;
-		//dataGridView1->Height = Height - dataGridView1->Top - 60;
-		textBox1->Width = Width + 1;
-		Initialized = 1;
+		CreateTable(50, 50);
+		dataGridView1->RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode::DisableResizing;
+		dataGridView2->RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode::DisableResizing;
+		dataGridView1->AllowUserToResizeRows = false;
+		dataGridView2->AllowUserToResizeRows = false;
+		//dataGridView1->ColumnHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode::DisableResizing;
+		//dataGridView2->ColumnHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode::DisableResizing;
 	}
 
 	private: System::Void MyForm_Resize(System::Object^  sender, System::EventArgs^  e) {
@@ -569,31 +613,7 @@ private: System::Void saveToolStripMenuItem_Click(System::Object^  sender, Syste
 					saveFile->Read(temp, 0, sizeof(int));
 					int ColumnCount = BitConverter::ToInt32(temp, 0);
 					int rows = RowCount, cols = ColumnCount;
-					int cnt1 = dataGridView1->Columns->Count;
-					for (int i = 0; i < cnt1; i++)
-					{
-						dataGridView1->Columns->Remove(dataGridView1->Columns[0]);
-					}
-					int cnt2 = dataGridView1->Rows->Count;
-					for (int i = 0; i < cnt2; i++)
-					{
-						dataGridView1->Rows->Remove(dataGridView1->Rows[0]);
-					}
-					table = gcnew Table(rows + 1, cols + 1);
-					graph = gcnew Graph(rows + 1, cols + 1);
-					dataGridView1->Columns->Add("", "");
-					dataGridView1->Rows->Add(rows);
-					dataGridView1->Columns[0]->Width = 60;
-					dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
-					for (int i = 1; i <= cols; i++)
-					{
-						//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
-						dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
-						dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
-						dataGridView1->Columns[i]->Width = 60;
-						dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
-						dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
-					}
+					ReCreateTable(rows, cols);
 					for (int i = 0; i < rows; i++)
 						for (int z = 0; z <= cols; z++)
 							table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
@@ -651,33 +671,7 @@ private: System::Void newToolStripMenuItem_Click(System::Object^  sender, System
 	form->ShowDialog();
 	if (!form->good) return;
 	int rows = form->getRows(), cols = form->getCols();
-	int cnt1 = dataGridView1->Columns->Count;
-	for (int i = 0; i < cnt1; i++)
-	{
-		dataGridView1->Columns->Remove(dataGridView1->Columns[0]);
-	}
-	int cnt2 = dataGridView1->Rows->Count;
-	for (int i = 0; i < cnt2; i++)
-	{
-		dataGridView1->Rows->Remove(dataGridView1->Rows[0]);
-	}
-	table = gcnew Table(rows + 1, cols + 1);
-	graph = gcnew Graph(rows + 1, cols + 1);
-	dataGridView1->Columns->Add("", "");
-	dataGridView1->Rows->Add(rows);
-	dataGridView1->Columns[0]->Width = 60;
-	dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
-	char s1[2] = "A";
-	for (int i = 1; i <= cols; i++)
-	{
-		//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
-		dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
-		dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
-		dataGridView1->Columns[i]->Width = 60;
-		dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
-		dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
-		s1[0]++;
-	}
+	ReCreateTable(rows, cols);
 	for (int i = 0; i < rows; i++)
 		for (int z = 0; z <= cols; z++)
 			table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
@@ -702,33 +696,7 @@ private: System::Void toolStripMenuItem2_Click(System::Object^  sender, System::
 			saveFile->Read(temp, 0, sizeof(int));
 			int ColumnCount = BitConverter::ToInt32(temp, 0);
 			int rows = RowCount, cols = ColumnCount;
-			int cnt1 = dataGridView1->Columns->Count;
-			for (int i = 0; i < cnt1; i++)
-			{
-				dataGridView1->Columns->Remove(dataGridView1->Columns[0]);
-			}
-			int cnt2 = dataGridView1->Rows->Count;
-			for (int i = 0; i < cnt2; i++)
-			{
-				dataGridView1->Rows->Remove(dataGridView1->Rows[0]);
-			}
-			table = gcnew Table(rows + 1, cols + 1);
-			graph = gcnew Graph(rows + 1, cols + 1);
-			dataGridView1->Columns->Add("", "");
-			dataGridView1->Rows->Add(rows);
-			dataGridView1->Columns[0]->Width = 60;
-			dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
-			char s1[2] = "A";
-			for (int i = 1; i <= cols; i++)
-			{
-				//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
-				dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
-				dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
-				dataGridView1->Columns[i]->Width = 60;
-				dataGridView1->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
-				dataGridView1->Rows[i - 1]->Cells[0]->ReadOnly = true;
-				s1[0]++;
-			}
+			ReCreateTable(rows, cols);
 			for (int i = 0; i < rows; i++)
 				for (int z = 0; z <= cols; z++)
 					table[i][z]->setValue(Convert::ToString(dataGridView1->Rows[i]->Cells[z]->Value));
@@ -779,6 +747,13 @@ private: System::Void closeToolStripMenuItem_Click(System::Object^  sender, Syst
 private: System::Void functionsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	Excel::MyForm3^ form = gcnew Excel::MyForm3;
 	form->ShowDialog();
+}
+private: System::Void dataGridView2_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
+	dataGridView2->ClearSelection();
+}
+private: System::Void dataGridView1_Scroll(System::Object^  sender, System::Windows::Forms::ScrollEventArgs^  e) {
+	dataGridView2->FirstDisplayedScrollingRowIndex = dataGridView1->FirstDisplayedScrollingRowIndex;
+	dataGridView1->FirstDisplayedScrollingRowIndex = dataGridView1->FirstDisplayedScrollingRowIndex;
 }
 };
 };
