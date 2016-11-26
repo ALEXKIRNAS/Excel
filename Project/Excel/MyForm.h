@@ -276,7 +276,7 @@ namespace Excel {
 			this->Name = L"MyForm";
 			this->Text = L"Excel";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
-			this->Closed += gcnew System::EventHandler(this, &MyForm::MyForm_Closing);
+			this->Closed += gcnew System::EventHandler(this, &MyForm::MyForm_Closed);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
@@ -304,7 +304,7 @@ namespace Excel {
 		void ReCreateTable(int RowCount, int ColumnCount);
 		void UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex);
 
-		private: System::Void MyForm_Closing(Object^ sender, EventArgs^ e);
+		private: System::Void MyForm_Closed(Object^ sender, EventArgs^ e);
 		private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e);
 		private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e);
 		private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e);

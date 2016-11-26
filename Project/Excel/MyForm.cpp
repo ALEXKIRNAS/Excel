@@ -259,7 +259,7 @@ namespace Excel
 		label1->Text = "Ready.";
 		label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
 	}
-	System::Void MyForm::MyForm_Closing(Object^ sender, EventArgs^ e) {
+	System::Void MyForm::MyForm_Closed(Object^ sender, EventArgs^ e) {
 		SaveLastFiles();
 	}
 	System::Void MyForm::MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
