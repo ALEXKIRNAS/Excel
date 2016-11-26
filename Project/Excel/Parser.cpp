@@ -150,28 +150,35 @@ bool Parser::isElemOper(const wchar_t& ch) {
 
 /*  Conver Y_index of table cell to digit
  */
-int Parser::getY_index(wstring& str, int index) {
+int Parser::getY_index(wstring& str, int index, unsigned int max) {
 
 	int res = 0;
 	int i = index;
-	while (str[i] != '$') i++;
+	while (i < str.length() && str[i] != '$') i++;
 
+	if (i == str.length()) throw "#Bad link";
 	if (i - index > 7) throw "#Index out of range";
 
-	while (str[index] != '$') res = res * 26 + str[index++] - 'A';
-	return res + 1;
+	while (str[index] != '$') 
+		if(isalpha(str[index]) && toupper(str[index]) == str[index]) res = res * 26 + str[index++] - 'A' + 1;
+		else throw "#Bad link";
+
+	if(res > max) throw "#Bad link";
+	return res;
 }
 
 /*  Conver X_index of table cell to digit
  */
-int Parser::getX_index(wstring& str, int index) {
+int Parser::getX_index(wstring& str, int index, unsigned int max) {
 	int res = 0;
 	int i = index;
-	while (isdigit(str[i])) i++;
+	while (i < str.length() && isdigit(str[i])) i++;
 
 	if (i - index > 8) throw "#Index out of range";
 
-	while (isdigit(str[index])) res = res * 10 + str[index++] - '0';
+	while (index < str.length() && isdigit(str[index])) res = res * 10 + str[index++] - '0';
+
+	if(res - 1 == -1 || res > max) throw "#Bad link";
 	return res - 1;
 }
 
@@ -189,7 +196,7 @@ bool Parser::strcmp(wstring& str, int index, int element) {
 /*  Processing nubers literals in input string
  */
 void Parser::processNumbers(const wstring& input, wstring& output, unsigned int& i) {
-	int length = input.size();
+	unsigned int length = input.size();
 
 	// Adding sign if this nessasary
 	if (input[i] == '-') {
@@ -307,10 +314,10 @@ void Parser::calculateLink(Table^ table, wstring& output, stack<Number>& aStack,
 	}
 	else koef = 1;
 
-	int yIndex = getY_index(output, ++i);
+	int yIndex = getY_index(output, ++i, table->getWidth());
 
 	while (output[i] != '$') i++;
-	int xIndex = getX_index(output, ++i);
+	int xIndex = getX_index(output, ++i, table->getHeight());
 	while (isdigit(output[i])) i++;
 
 	aStack.push(koef * table[xIndex][yIndex]->getResult());
@@ -452,7 +459,7 @@ Number Parser::caseFuction(Number& top, int index) {
 /*	Definition is input string consist from one number
  *  Return number or throw exception if not one number
  */
-Number Parser::isOnlyOneDigit(const wstring& input, int i) {
+Number Parser::isOnlyOneDigit(const wstring& input, size_t i) {
 	size_t index = 0;
 	size_t length = input.size();
 

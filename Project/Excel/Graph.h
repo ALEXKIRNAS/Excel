@@ -83,34 +83,36 @@ private:
 
 	/*  Conver Y_index of table cell to digit
 	*/
-	unsigned int getY(String^ str, int& index, unsigned int max) {
-		unsigned int res = 0;
-		int i = index;
-		while (str[i] != '$') i++;
+	int Graph::getY(String^ str, int& index, unsigned int max) {
 
+		unsigned int res = 0;
+		unsigned int i = index;
+		while (i < str->Length && str[i] != '$') i++;
+
+		if (i == str->Length) throw "#Bad link";
 		if (i - index > 7) throw "#Index out of range";
 
-		while (str[index] != '$') res = res * 26 + str[index++] - 'A';
+		while (str[index] != '$')
+			if (isalpha(str[index]) && toupper(str[index]) == str[index]) res = res * 26 + str[index++] - 'A' + 1;
+			else throw "#Bad link";
 
-		if (res + 1 > max) throw "#Index out of range";
-		else return res + 1;
+			if (res > max) throw "#Bad link";
+			return res;
 	}
 
 	/*  Conver X_index of table cell to digit
 	*/
-	unsigned int Graph::getX(String^ str, int& index, unsigned int max) {
-		unsigned int res = 0;
-
+	int Graph::getX(String^ str, int& index, unsigned int max) {
+		int res = 0;
 		int i = index;
 		while (i < str->Length && isdigit(str[i])) i++;
 
 		if (i - index > 8) throw "#Index out of range";
 
-		while (index < str->Length &&  isdigit(str[index])) res = res * 10 + str[index++] - '0';
+		while (index < str->Length && isdigit(str[index])) res = res * 10 + str[index++] - '0';
 
-
-		if (res - 1 > max) throw "#Index out of range";
-		else return res - 1;
+		if (res - 1 == -1 || res > max) throw "#Bad link";
+		return res - 1;
 	}
 
 public:
@@ -118,11 +120,11 @@ public:
 	Graph(unsigned int height, unsigned int width) {
 		graph.resize(height);
 
-		for (int i = 0; i < height; i++) {
+		for (size_t i = 0; i < height; i++) {
 			graph[i] = gcnew vector < set <unsigned __int64>^ >;
 			graph[i]->resize(width);
 
-			for (int z = 0; z < width; z++)
+			for (size_t z = 0; z < width; z++)
 				graph[i]->at(z) = gcnew set <unsigned __int64>;
 		}
 	}

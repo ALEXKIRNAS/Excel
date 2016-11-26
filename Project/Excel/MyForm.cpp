@@ -242,24 +242,25 @@ namespace Excel
 		}
 
 		wchar_t* value = toStdWstring(newString);
+		bool isWasFormula = table[RowIndex][CollumnIndex]->getIsFormula();
 
 		try {
 			table[RowIndex][CollumnIndex]->setResult(Parser::parse(wstring(value), table));
 			table[RowIndex][CollumnIndex]->setIsFormula(true);
 
-			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
+			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex, isWasFormula);
 			dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value = Convert::ToString(table[RowIndex][CollumnIndex]->getResult());
 		}
 		catch (char* str) {
 			table[RowIndex][CollumnIndex]->setIsFormula(false);
-			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
+			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex, isWasFormula);
 
 			String^ temp = gcnew String(str);
 			dataGridView1->Rows[RowIndex]->Cells[CollumnIndex]->Value = temp;
 		}
 		catch (int value) {
 			table[RowIndex][CollumnIndex]->setIsFormula(false);
-			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex);
+			graph->changeGraph(table, dataGridView1, RowIndex, CollumnIndex, isWasFormula);
 		}
 
 		delete[] value;

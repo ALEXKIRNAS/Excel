@@ -10,10 +10,10 @@ Table::Table(unsigned int height, unsigned int width) {
 
 	table.resize(height);
 
-	for (int i = 0; i < height; i++) {
+	for (unsigned int i = 0; i < height; i++) {
 		table[i] = gcnew vector <Cell^>(width);
 
-		for (int z = 0; z < width; z++)
+		for (unsigned int z = 0; z < width; z++)
 			table[i][z] = gcnew Cell;
 	}
 }

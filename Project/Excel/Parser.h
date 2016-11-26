@@ -13,8 +13,8 @@ private:
 
 	inline static unsigned int opPrior(const wchar_t& ch);
 	inline static bool isElemOper(const wchar_t& ch);
-	inline static int getX_index(wstring& str, int index = 0);
-	inline static int getY_index(wstring& str, int index = 0);
+	inline static int getX_index(wstring& str, int index, unsigned int max);
+	inline static int getY_index(wstring& str, int index, unsigned int max);
 	inline static bool strcmp(wstring& str, int index, int element);
 
 	static void processNumbers(const wstring& input, wstring& output, unsigned int& i);
@@ -30,7 +30,7 @@ private:
 
 	static int searchAssigmentSymbol(const wstring& input);
 	static Number caseFuction(Number& top, int index);
-	static Number isOnlyOneDigit(const wstring& input, int i);
+	static Number isOnlyOneDigit(const wstring& input, size_t i);
 
 public:
 	static Number parse(const wstring& input, Table^ table);
