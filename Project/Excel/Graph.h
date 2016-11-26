@@ -130,14 +130,16 @@ public:
 	/*  Analiz changes in current cell of table and recalculete values
 	 *	in dependent cells
 	 */
-	void changeGraph(Table^ table, DataGridView^ view, unsigned int row, unsigned int column) {
+	void changeGraph(Table^ table, DataGridView^ view, unsigned int row, unsigned int column, bool isWasFormula) {
 
 		// Getting all indexs of all cells that used in old and new formula 
 		vector <unsigned __int64>^ oldList = gcnew vector <unsigned __int64>;
-		getListOfCells(table[row][column]->getValue(), table->getHeight(), table->getWidth(), oldList);
+		if(isWasFormula)
+			getListOfCells(table[row][column]->getValue(), table->getHeight(), table->getWidth(), oldList);
 
 		vector <unsigned __int64>^ newList = gcnew vector <unsigned __int64>;
-		getListOfCells(view->Rows[row]->Cells[column]->Value->ToString(), table->getHeight(), table->getWidth(), newList);
+		if(table[row][column]->getIsFormula())
+			getListOfCells(view->Rows[row]->Cells[column]->Value->ToString(), table->getHeight(), table->getWidth(), newList);
 
 		// Delete old depends
 		for (int i = 0, size = oldList->size(); i < size; i++)
