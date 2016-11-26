@@ -190,14 +190,17 @@ namespace Excel
 		char s1[2] = "A";
 		dataGridView1->Columns[0]->Width = 60;
 		dataGridView1->Columns[0]->SortMode = DataGridViewColumnSortMode::NotSortable;
+		for (int i = 1; i <= rows; i++)
+		{
+			dataGridView2->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
+			dataGridView2->Rows[i - 1]->Cells[0]->ReadOnly = true;
+		}
 		for (int i = 1; i <= cols; i++)
 		{
 			//dataGridView1->Columns->Add(gcnew String(s1), gcnew String(s1));
 			dataGridView1->Columns->Add(CollumnHeader(i), CollumnHeader(i));
 			dataGridView1->Columns[i]->SortMode = DataGridViewColumnSortMode::NotSortable;
 			dataGridView1->Columns[i]->Width = 60;
-			dataGridView2->Rows[i - 1]->Cells[0]->Value = Convert::ToString(i);
-			dataGridView2->Rows[i - 1]->Cells[0]->ReadOnly = true;
 			s1[0]++;
 		}
 		dataGridView2->ClearSelection();
