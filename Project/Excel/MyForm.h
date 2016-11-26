@@ -5,7 +5,7 @@
 #include "MyForm1.h"
 #include "MyForm2.h"
 #include "MyForm3.h"
-#include "UserIO.h"
+#include "MyForm4.h"
 #include <string>
 #include <ctime>
 
@@ -67,6 +67,7 @@ namespace Excel {
 	private: System::Windows::Forms::ToolStripMenuItem^  closeToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  functionsToolStripMenuItem;
 	private: System::Windows::Forms::DataGridView^  dataGridView2;
+	private: System::Windows::Forms::Label^  label3;
 
 	protected:
 
@@ -100,6 +101,7 @@ namespace Excel {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->BeginInit();
@@ -260,11 +262,21 @@ namespace Excel {
 			this->dataGridView2->TabIndex = 5;
 			this->dataGridView2->CurrentCellChanged += gcnew System::EventHandler(this, &MyForm::dataGridView2_CurrentCellChanged);
 			// 
+			// label3
+			// 
+			this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left));
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(231, 309);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(0, 13);
+			this->label3->TabIndex = 6;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(716, 327);
+			this->Controls->Add(this->label3);
 			this->Controls->Add(this->dataGridView2);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -275,8 +287,8 @@ namespace Excel {
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
 			this->Text = L"Excel";
-			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->Closed += gcnew System::EventHandler(this, &MyForm::MyForm_Closed);
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
@@ -299,6 +311,7 @@ namespace Excel {
 		String^ CollumnHeader(int a);
 		wchar_t* toStdWstring(String^ str);
 
+		bool WantSave();
 		void DeleteTable();
 		void CreateTable(int RowCount, int ColumnCount);
 		void ReCreateTable(int RowCount, int ColumnCount);
