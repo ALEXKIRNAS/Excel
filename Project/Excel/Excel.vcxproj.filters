@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyForm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -30,23 +27,23 @@
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyForm1.cpp">
+    <ClCompile Include="Excel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyForm2.cpp">
+    <ClCompile Include="New.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyForm3.cpp">
+    <ClCompile Include="About.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyForm4.cpp">
+    <ClCompile Include="Help.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Save.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyForm.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -62,22 +59,22 @@
     <ClInclude Include="Table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FormContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyForm1.h">
+    <ClInclude Include="Excel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyForm2.h">
+    <ClInclude Include="New.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyForm3.h">
+    <ClInclude Include="About.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyForm4.h">
+    <ClInclude Include="Help.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Save.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,19 +89,19 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MyForm.resx">
+    <EmbeddedResource Include="Excel.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm1.resx">
+    <EmbeddedResource Include="New.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm2.resx">
+    <EmbeddedResource Include="About.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm3.resx">
+    <EmbeddedResource Include="Help.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm4.resx">
+    <EmbeddedResource Include="Save.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

@@ -10,12 +10,12 @@ namespace Excel {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MyForm4
+	/// Summary for Save
 	/// </summary>
-	public ref class MyForm4 : public System::Windows::Forms::Form
+	public ref class Save : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm4(void)
+		Save(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace Excel {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm4()
+		~Save()
 		{
 			if (components)
 			{
@@ -89,7 +89,7 @@ namespace Excel {
 			this->button1->TabIndex = 2;
 			this->button1->Text = L"Yes";
 			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm4::button1_Click);
+			this->button1->Click += gcnew System::EventHandler(this, &Save::button1_Click);
 			// 
 			// button2
 			// 
@@ -99,9 +99,9 @@ namespace Excel {
 			this->button2->TabIndex = 3;
 			this->button2->Text = L"No";
 			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm4::button2_Click);
+			this->button2->Click += gcnew System::EventHandler(this, &Save::button2_Click);
 			// 
-			// MyForm4
+			// Save
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -111,7 +111,7 @@ namespace Excel {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
-			this->Name = L"MyForm4";
+			this->Name = L"Save";
 			this->Text = L"Save file\?";
 			this->ResumeLayout(false);
 			this->PerformLayout();

@@ -1,4 +1,4 @@
-#include "MyForm.h"
+#include "Excel.h"
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
@@ -7,13 +7,13 @@
 #include <direct.h>
 namespace Excel
 {
-	bool MyForm::WantSave()
+	bool Excel::WantSave()
 	{
-		Excel::MyForm4^ form = gcnew Excel::MyForm4;
+		Save^ form = gcnew Save;
 		form->ShowDialog();
 		return (form->Selection == 1);
 	}
-	void MyForm::SaveLastFiles()
+	void Excel::SaveLastFiles()
 	{
 		char* appdata = getenv("APPDATA");
 		char SettingsFile[260];
@@ -41,7 +41,7 @@ namespace Excel
 			
 		}
 	}
-	void MyForm::LoadLastFiles()
+	void Excel::LoadLastFiles()
 	{
 		char* appdata = getenv("APPDATA");
 		char SettingsFile[260];
@@ -80,7 +80,7 @@ namespace Excel
 			for (int i = 1; i < lastFilesNumber;i++)
 			{
 				System::Windows::Forms::ToolStripMenuItem^ newItem = gcnew System::Windows::Forms::ToolStripMenuItem();
-				newItem->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem2_Click);
+				newItem->Click += gcnew System::EventHandler(this, &Excel::toolStripMenuItem2_Click);
 				latestToolStripMenuItem->DropDownItems->Add(newItem);
 			}
 
@@ -93,7 +93,7 @@ namespace Excel
 
 		}
 	}
-	void MyForm::UpdateLastFiles(String^ s)
+	void Excel::UpdateLastFiles(String^ s)
 	{
 		int sIndex = -1;
 		for (int i=0; i < lastFilesNumber; i++)
@@ -112,7 +112,7 @@ namespace Excel
 			if (lastFilesNumber != 1)
 			{
 				System::Windows::Forms::ToolStripMenuItem^ newItem = gcnew System::Windows::Forms::ToolStripMenuItem();
-				newItem->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem2_Click);
+				newItem->Click += gcnew System::EventHandler(this, &Excel::toolStripMenuItem2_Click);
 				latestToolStripMenuItem->DropDownItems->Add(newItem);
 			}
 		}
@@ -132,7 +132,7 @@ namespace Excel
 			latestToolStripMenuItem->DropDownItems[j++]->Text = lastFiles[--i];
 	}
 
-	String^ MyForm::CollumnHeader(int a)
+	String^ Excel::CollumnHeader(int a)
 	{
 		a--;
 		int l = 1, a2 = a;
@@ -150,7 +150,7 @@ namespace Excel
 		return t;
 	}
 
-	wchar_t* MyForm::toStdWstring(String^ str) {
+	wchar_t* Excel::toStdWstring(String^ str) {
 		wchar_t* s = new wchar_t[str->Length + 1];
 		array <wchar_t>^ temp = str->ToCharArray();
 
@@ -161,7 +161,7 @@ namespace Excel
 		return s;
 	}
 
-	void MyForm::DeleteTable()
+	void Excel::DeleteTable()
 	{
 		dataGridView2->Columns->Remove(dataGridView2->Columns[0]);
 		int cnt1 = dataGridView1->Columns->Count;
@@ -175,7 +175,7 @@ namespace Excel
 			dataGridView1->Rows->Remove(dataGridView1->Rows[0]);
 		}
 	}
-	void MyForm::CreateTable(int RowCount, int ColumnCount)
+	void Excel::CreateTable(int RowCount, int ColumnCount)
 	{
 		Initialized = 0;
 		int rows = RowCount, cols = ColumnCount;
@@ -210,13 +210,13 @@ namespace Excel
 		Initialized = 1;
 
 	}
-	void MyForm::ReCreateTable(int RowCount, int ColumnCount)
+	void Excel::ReCreateTable(int RowCount, int ColumnCount)
 	{
 		DeleteTable();
 		CreateTable(RowCount, ColumnCount);
 	}
 
-	void MyForm::UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex)
+	void Excel::UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex)
 	{
 		label1->Text = "Processing...";
 		label2->Text = "";
@@ -269,7 +269,7 @@ namespace Excel
 		label1->Text = "Ready.";
 		label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
 	}
-	System::Void MyForm::MyForm_Closed(Object^ sender, EventArgs^ e) {
+	System::Void Excel::Excel_Closed(Object^ sender, EventArgs^ e) {
 		if (label3->Text->Length != 0)
 		{
 			if (WantSave())
@@ -280,7 +280,7 @@ namespace Excel
 		}
 		SaveLastFiles();
 	}
-	System::Void MyForm::MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::Excel_Load(System::Object^  sender, System::EventArgs^  e) {
 		label1->Text = "Ready.";
 		label2->Text = "";
 		CreateTable(startRows, startCols);
@@ -291,7 +291,7 @@ namespace Excel
 		LoadLastFiles();
 	}
 
-	System::Void MyForm::dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
 		if (!Initialized) return;
 
 		int RowIndex = dataGridView1->CurrentCell->RowIndex;
@@ -319,7 +319,7 @@ namespace Excel
 		textBox1->Enabled = true;
 	}
 
-	System::Void MyForm::dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+	System::Void Excel::dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 		if (!Initialized) return;
 		if (!dataGridView1->CurrentCell)
 		{
@@ -338,7 +338,7 @@ namespace Excel
 
 	}
 
-	System::Void MyForm::textBox1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+	System::Void Excel::textBox1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
 		if (e->KeyChar == (char)13) 
 		{
 			int RowIndex = dataGridView1->CurrentCell->RowIndex;
@@ -349,13 +349,13 @@ namespace Excel
 			label3->Text = "Unsaved";
 		}
 	}
-	System::Void MyForm::dataGridView1_CellEndEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+	System::Void Excel::dataGridView1_CellEndEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 		int RowIndex = dataGridView1->CurrentCell->RowIndex;
 		int CollumnIndex = dataGridView1->CurrentCell->ColumnIndex;
 		UpdateText(Convert::ToString(dataGridView1->CurrentCell->Value), RowIndex, CollumnIndex);
 		textBox1->Text = table[RowIndex][CollumnIndex]->getValue();
 	}
-	System::Void MyForm::saveToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::saveToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		SaveFileDialog saveFileDialog1;
 		saveFileDialog1.Filter = "Table file (*.adc)|*.adc";
 		if (saveFileDialog1.ShowDialog() == System::Windows::Forms::DialogResult::OK)
@@ -395,7 +395,7 @@ namespace Excel
 				MessageBox::Show("Error opening file", "Error");
 		}
 	}
-	System::Void MyForm::openToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::openToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (label3->Text->Length != 0)
 		{
 			if (WantSave())
@@ -467,12 +467,12 @@ namespace Excel
 
 		}
 	}
-	System::Void MyForm::dataGridView1_CellBeginEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^  e) {
+	System::Void Excel::dataGridView1_CellBeginEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^  e) {
 		int RowIndex = e->RowIndex;
 		int CollumnIndex = e->ColumnIndex;
 		dataGridView1->CurrentCell->Value = table[RowIndex][CollumnIndex]->getValue();
 	}
-	System::Void MyForm::newToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::newToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (label3->Text->Length!=0)
 		{
 			if (WantSave())
@@ -482,7 +482,7 @@ namespace Excel
 			label3->Text = "";
 		}
 		Initialized = false;
-		Excel::MyForm1^ form = gcnew Excel::MyForm1;
+		New^ form = gcnew New;
 		form->ShowDialog();
 		if (!form->good) return;
 		int rows = form->getRows(), cols = form->getCols();
@@ -493,11 +493,11 @@ namespace Excel
 		textBox1->Width = Width + 1;
 		Initialized = 1;
 	}
-	System::Void MyForm::aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-		Excel::MyForm2^ form = gcnew Excel::MyForm2;
+	System::Void Excel::aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		About^ form = gcnew About;
 		form->ShowDialog();
 	}
-	System::Void MyForm::toolStripMenuItem2_Click(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::toolStripMenuItem2_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (label3->Text->Length != 0)
 		{
 			if (WantSave())
@@ -573,17 +573,17 @@ namespace Excel
 			MessageBox::Show("Error opening file", "Error");
 
 	}
-	System::Void MyForm::closeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::closeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		Close();
 	}
-	System::Void MyForm::functionsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-		Excel::MyForm3^ form = gcnew Excel::MyForm3;
+	System::Void Excel::functionsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		Help^ form = gcnew Help;
 		form->ShowDialog();
 	}
-	System::Void MyForm::dataGridView2_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
+	System::Void Excel::dataGridView2_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
 		dataGridView2->ClearSelection();
 	}
-	System::Void MyForm::dataGridView1_Scroll(System::Object^  sender, System::Windows::Forms::ScrollEventArgs^  e) {
+	System::Void Excel::dataGridView1_Scroll(System::Object^  sender, System::Windows::Forms::ScrollEventArgs^  e) {
 		dataGridView2->FirstDisplayedScrollingRowIndex = dataGridView1->FirstDisplayedScrollingRowIndex;
 		dataGridView1->FirstDisplayedScrollingRowIndex = dataGridView1->FirstDisplayedScrollingRowIndex;
 	}

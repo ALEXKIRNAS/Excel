@@ -2,10 +2,10 @@
 #include "Table.h"
 #include "Parser.h"
 #include "Graph.h"
-#include "MyForm1.h"
-#include "MyForm2.h"
-#include "MyForm3.h"
-#include "MyForm4.h"
+#include "New.h"
+#include "About.h"
+#include "Help.h"
+#include "Save.h"
 #include <string>
 #include <ctime>
 
@@ -24,12 +24,12 @@ namespace Excel {
 	using namespace System::IO;
 
 	/// <summary>
-	/// Summary for MyForm
+	/// Summary for Excel
 	/// </summary>
-	public ref class MyForm : public System::Windows::Forms::Form
+	public ref class Excel : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm(void)
+		Excel(void)
 		{
 			InitializeComponent();
 			//
@@ -41,7 +41,7 @@ namespace Excel {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm()
+		~Excel()
 		{
 			if (components)
 			{
@@ -84,7 +84,7 @@ namespace Excel {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Excel::typeid));
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -116,7 +116,7 @@ namespace Excel {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(717, 20);
 			this->textBox1->TabIndex = 1;
-			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::textBox1_KeyPress);
+			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Excel::textBox1_KeyPress);
 			// 
 			// menuStrip1
 			// 
@@ -145,21 +145,21 @@ namespace Excel {
 			this->newToolStripMenuItem->Name = L"newToolStripMenuItem";
 			this->newToolStripMenuItem->Size = System::Drawing::Size(105, 22);
 			this->newToolStripMenuItem->Text = L"New";
-			this->newToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::newToolStripMenuItem_Click);
+			this->newToolStripMenuItem->Click += gcnew System::EventHandler(this, &Excel::newToolStripMenuItem_Click);
 			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
 			this->openToolStripMenuItem->Size = System::Drawing::Size(105, 22);
 			this->openToolStripMenuItem->Text = L"Open";
-			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
+			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &Excel::openToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
 			this->saveToolStripMenuItem->Size = System::Drawing::Size(105, 22);
 			this->saveToolStripMenuItem->Text = L"Save";
-			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
+			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &Excel::saveToolStripMenuItem_Click);
 			// 
 			// latestToolStripMenuItem
 			// 
@@ -174,14 +174,14 @@ namespace Excel {
 			this->toolStripMenuItem2->Name = L"toolStripMenuItem2";
 			this->toolStripMenuItem2->Size = System::Drawing::Size(114, 22);
 			this->toolStripMenuItem2->Text = L"No files";
-			this->toolStripMenuItem2->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem2_Click);
+			this->toolStripMenuItem2->Click += gcnew System::EventHandler(this, &Excel::toolStripMenuItem2_Click);
 			// 
 			// closeToolStripMenuItem
 			// 
 			this->closeToolStripMenuItem->Name = L"closeToolStripMenuItem";
 			this->closeToolStripMenuItem->Size = System::Drawing::Size(105, 22);
 			this->closeToolStripMenuItem->Text = L"Close";
-			this->closeToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::closeToolStripMenuItem_Click);
+			this->closeToolStripMenuItem->Click += gcnew System::EventHandler(this, &Excel::closeToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -198,14 +198,14 @@ namespace Excel {
 			this->functionsToolStripMenuItem->Name = L"functionsToolStripMenuItem";
 			this->functionsToolStripMenuItem->Size = System::Drawing::Size(107, 22);
 			this->functionsToolStripMenuItem->Text = L"Docs";
-			this->functionsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::functionsToolStripMenuItem_Click);
+			this->functionsToolStripMenuItem->Click += gcnew System::EventHandler(this, &Excel::functionsToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
 			this->aboutToolStripMenuItem->Size = System::Drawing::Size(107, 22);
 			this->aboutToolStripMenuItem->Text = L"About";
-			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::aboutToolStripMenuItem_Click);
+			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &Excel::aboutToolStripMenuItem_Click);
 			// 
 			// dataGridView1
 			// 
@@ -221,11 +221,11 @@ namespace Excel {
 			this->dataGridView1->RowHeadersVisible = false;
 			this->dataGridView1->Size = System::Drawing::Size(657, 260);
 			this->dataGridView1->TabIndex = 0;
-			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
-			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
-			this->dataGridView1->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellValueChanged);
-			this->dataGridView1->CurrentCellChanged += gcnew System::EventHandler(this, &MyForm::dataGridView1_CurrentCellChanged);
-			this->dataGridView1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MyForm::dataGridView1_Scroll);
+			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &Excel::dataGridView1_CellBeginEdit);
+			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Excel::dataGridView1_CellEndEdit);
+			this->dataGridView1->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Excel::dataGridView1_CellValueChanged);
+			this->dataGridView1->CurrentCellChanged += gcnew System::EventHandler(this, &Excel::dataGridView1_CurrentCellChanged);
+			this->dataGridView1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &Excel::dataGridView1_Scroll);
 			// 
 			// label1
 			// 
@@ -260,7 +260,7 @@ namespace Excel {
 			this->dataGridView2->ScrollBars = System::Windows::Forms::ScrollBars::None;
 			this->dataGridView2->Size = System::Drawing::Size(60, 242);
 			this->dataGridView2->TabIndex = 5;
-			this->dataGridView2->CurrentCellChanged += gcnew System::EventHandler(this, &MyForm::dataGridView2_CurrentCellChanged);
+			this->dataGridView2->CurrentCellChanged += gcnew System::EventHandler(this, &Excel::dataGridView2_CurrentCellChanged);
 			// 
 			// label3
 			// 
@@ -271,7 +271,7 @@ namespace Excel {
 			this->label3->Size = System::Drawing::Size(0, 13);
 			this->label3->TabIndex = 6;
 			// 
-			// MyForm
+			// Excel
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -285,10 +285,10 @@ namespace Excel {
 			this->Controls->Add(this->menuStrip1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MainMenuStrip = this->menuStrip1;
-			this->Name = L"MyForm";
+			this->Name = L"Excel";
 			this->Text = L"Excel";
-			this->Closed += gcnew System::EventHandler(this, &MyForm::MyForm_Closed);
-			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->Closed += gcnew System::EventHandler(this, &Excel::Excel_Closed);
+			this->Load += gcnew System::EventHandler(this, &Excel::Excel_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
@@ -317,8 +317,8 @@ namespace Excel {
 		void ReCreateTable(int RowCount, int ColumnCount);
 		void UpdateText(String^ newString, unsigned int RowIndex, unsigned int CollumnIndex);
 
-		private: System::Void MyForm_Closed(Object^ sender, EventArgs^ e);
-		private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e);
+		private: System::Void Excel_Closed(Object^ sender, EventArgs^ e);
+		private: System::Void Excel_Load(System::Object^  sender, System::EventArgs^  e);
 		private: System::Void dataGridView1_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e);
 		private: System::Void dataGridView1_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e);
 		private: System::Void textBox1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e);

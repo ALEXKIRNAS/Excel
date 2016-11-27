@@ -10,12 +10,12 @@ namespace Excel {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MyForm1
+	/// Summary for New
 	/// </summary>
-	public ref class MyForm1 : public System::Windows::Forms::Form
+	public ref class New : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm1(void)
+		New(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace Excel {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm1()
+		~New()
 		{
 			if (components)
 			{
@@ -109,9 +109,9 @@ namespace Excel {
 			this->button1->TabIndex = 4;
 			this->button1->Text = L"Create";
 			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm1::button1_Click);
+			this->button1->Click += gcnew System::EventHandler(this, &New::button1_Click);
 			// 
-			// MyForm1
+			// New
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -121,9 +121,9 @@ namespace Excel {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->numericUpDown2);
 			this->Controls->Add(this->numericUpDown1);
-			this->Name = L"MyForm1";
+			this->Name = L"New";
 			this->Text = L"New File";
-			this->Load += gcnew System::EventHandler(this, &MyForm1::MyForm1_Load);
+			this->Load += gcnew System::EventHandler(this, &New::New_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
 			this->ResumeLayout(false);
@@ -145,7 +145,7 @@ namespace Excel {
 		good = true;
 		Close();
 	}
-private: System::Void MyForm1_Load(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void New_Load(System::Object^  sender, System::EventArgs^  e) {
 	good = false;
 }
 };

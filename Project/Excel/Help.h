@@ -10,12 +10,12 @@ namespace Excel {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MyForm3
+	/// Summary for Help
 	/// </summary>
-	public ref class MyForm3 : public System::Windows::Forms::Form
+	public ref class Help : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm3(void)
+		Help(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace Excel {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm3()
+		~Help()
 		{
 			if (components)
 			{
@@ -50,12 +50,12 @@ namespace Excel {
 		{
 			this->SuspendLayout();
 			// 
-			// MyForm3
+			// Help
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(257, 258);
-			this->Name = L"MyForm3";
+			this->Name = L"Help";
 			this->Text = L"Help";
 			this->ResumeLayout(false);
 

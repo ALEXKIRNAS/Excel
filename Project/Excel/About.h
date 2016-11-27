@@ -10,12 +10,12 @@ namespace Excel {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MyForm2
+	/// Summary for About
 	/// </summary>
-	public ref class MyForm2 : public System::Windows::Forms::Form
+	public ref class About : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm2(void)
+		About(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace Excel {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm2()
+		~About()
 		{
 			if (components)
 			{
@@ -50,7 +50,7 @@ namespace Excel {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm2::typeid));
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(About::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
@@ -65,15 +65,15 @@ namespace Excel {
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
-			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm2::pictureBox1_Click);
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &About::pictureBox1_Click);
 			// 
-			// MyForm2
+			// About
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(644, 481);
 			this->Controls->Add(this->pictureBox1);
-			this->Name = L"MyForm2";
+			this->Name = L"About";
 			this->Text = L"Authors";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);

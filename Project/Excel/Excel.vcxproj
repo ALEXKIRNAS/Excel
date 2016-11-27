@@ -139,32 +139,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="Excel.cpp" />
     <ClCompile Include="Cell.cpp" />
-    <ClCompile Include="MyForm1.cpp" />
-    <ClCompile Include="MyForm2.cpp" />
-    <ClCompile Include="MyForm3.cpp" />
-    <ClCompile Include="MyForm4.cpp" />
+    <ClCompile Include="New.cpp" />
+    <ClCompile Include="About.cpp" />
+    <ClCompile Include="Help.cpp" />
+    <ClCompile Include="Save.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FormContainer.h" />
     <ClInclude Include="Graph.h" />
-    <ClInclude Include="MyForm.h">
+    <ClInclude Include="Excel.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Cell.h" />
-    <ClInclude Include="MyForm1.h">
+    <ClInclude Include="New.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="MyForm2.h">
+    <ClInclude Include="About.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="MyForm3.h">
+    <ClInclude Include="Help.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="MyForm4.h">
+    <ClInclude Include="Save.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Number.h" />
@@ -173,20 +172,20 @@
     <ClInclude Include="Table.h" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MyForm.resx">
-      <DependentUpon>MyForm.h</DependentUpon>
+    <EmbeddedResource Include="Excel.resx">
+      <DependentUpon>Excel.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm1.resx">
-      <DependentUpon>MyForm1.h</DependentUpon>
+    <EmbeddedResource Include="New.resx">
+      <DependentUpon>New.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm2.resx">
-      <DependentUpon>MyForm2.h</DependentUpon>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm3.resx">
-      <DependentUpon>MyForm3.h</DependentUpon>
+    <EmbeddedResource Include="Help.resx">
+      <DependentUpon>Help.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm4.resx">
-      <DependentUpon>MyForm4.h</DependentUpon>
+    <EmbeddedResource Include="Save.resx">
+      <DependentUpon>Save.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
