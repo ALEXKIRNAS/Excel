@@ -1,9 +1,4 @@
 #include "Excel.h"
-#include <cstdlib>
-#include <cstring>
-#include <cstdio>
-#include <fstream>
-#include <stdio.h>
 #include <direct.h>
 namespace Excel
 {
