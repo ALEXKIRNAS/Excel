@@ -54,6 +54,7 @@ namespace Excel {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(New::typeid));
 			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -121,6 +122,7 @@ namespace Excel {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->numericUpDown2);
 			this->Controls->Add(this->numericUpDown1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"New";
 			this->Text = L"New File";
 			this->Load += gcnew System::EventHandler(this, &New::New_Load);
@@ -133,20 +135,9 @@ namespace Excel {
 #pragma endregion
 	public:
 		bool good;
-		int getRows()
-		{
-			return (int)numericUpDown1->Value;
-		}
-		int getCols()
-		{
-			return (int)numericUpDown2->Value;
-		}
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-		good = true;
-		Close();
-	}
-private: System::Void New_Load(System::Object^  sender, System::EventArgs^  e) {
-	good = false;
-}
+		int getRows();
+		int getCols();
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void New_Load(System::Object^  sender, System::EventArgs^  e);
 };
 }

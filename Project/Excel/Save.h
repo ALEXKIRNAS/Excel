@@ -53,6 +53,7 @@ namespace Excel {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Save::typeid));
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -111,6 +112,7 @@ namespace Excel {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"Save";
 			this->Text = L"Save file\?";
 			this->ResumeLayout(false);
@@ -121,13 +123,7 @@ namespace Excel {
 	public:
 		int Selection = 2;
 
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
-		Selection = 2;
-		Close();
-	}
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-		Selection = 1;
-		Close();
-	}
+	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
 };
 }
