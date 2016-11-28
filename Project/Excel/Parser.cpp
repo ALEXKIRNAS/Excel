@@ -320,6 +320,7 @@ void Parser::calculateLink(Table^ table, wstring& output, stack<Number>& aStack,
 	int xIndex = getX_index(output, ++i, table->getHeight());
 	while (isdigit(output[i])) i++;
 
+	if (table->getHeight() - 1 <= xIndex || table->getWidth()  <= yIndex) throw "#Bad link";
 	aStack.push(koef * table[xIndex][yIndex]->getResult());
 }
 
@@ -452,7 +453,7 @@ Number Parser::caseFuction(Number& top, int index) {
 			// Actg
 		case 9: return M_PI/static_cast<Number> (2) - atan(top);
 		
-		default: throw "#Oops. We forgot release function.";
+		default: throw "#Bad function name";
 	}
 }
 
