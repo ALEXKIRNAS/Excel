@@ -355,6 +355,7 @@ namespace Excel
 		saveFileDialog1.Filter = "Table file (*.adc)|*.adc";
 		if (saveFileDialog1.ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
+			clock_t begin = clock();
 			Stream^ saveFile = saveFileDialog1.OpenFile();
 			if (saveFile != nullptr)
 			{
@@ -380,14 +381,22 @@ namespace Excel
 					saveFile->Close();
 					UpdateLastFiles(saveFileDialog1.FileName);
 					label3->Text = "";
+					label1->Text = "Ready.";
+					label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
 				}
 				catch (...)
 				{
+					label1->Text = "Error.";
+					label2->Text = "Got error in " + (clock() - begin) / static_cast <double> (1000) + "s";
 					MessageBox::Show("Error Processing file", "Error");
 				}
 			}
 			else
+			{
+				label1->Text = "Error.";
+				label2->Text = "Got error in " + (clock() - begin) / static_cast <double> (1000) + "s";
 				MessageBox::Show("Error opening file", "Error");
+			}
 		}
 	}
 	System::Void Excel::openToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -404,6 +413,7 @@ namespace Excel
 		openFileDialog1.Filter = "Table file (*.adc)|*.adc";
 		if (openFileDialog1.ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
+			clock_t begin = clock();
 			Stream^ saveFile = openFileDialog1.OpenFile();
 			if (saveFile != nullptr)
 			{
@@ -451,14 +461,22 @@ namespace Excel
 						}
 					saveFile->Close();
 					UpdateLastFiles(openFileDialog1.FileName);
+					label1->Text = "Ready.";
+					label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
 				}
 				catch (...)
 				{
+					label1->Text = "Error.";
+					label2->Text = "Got error in " + (clock() - begin) / static_cast <double> (1000) + "s";
 					MessageBox::Show("Error Processing file", "Error");
 				}
 			}
 			else
+			{
+				label1->Text = "Error.";
+				label2->Text = "Got error in " + (clock() - begin) / static_cast <double> (1000) + "s";
 				MessageBox::Show("Error opening file", "Error");
+			}
 
 		}
 	}
@@ -501,6 +519,7 @@ namespace Excel
 			}
 			label3->Text = "";
 		}
+		clock_t begin = clock();
 		Initialized = false;
 		String^ FileName = ((System::Windows::Forms::ToolStripMenuItem^)sender)->Text;
 		Stream^ saveFile;
@@ -514,7 +533,7 @@ namespace Excel
 		}
 		if (saveFile != nullptr)
 		{
-			try 
+			try
 			{
 				cli::array <unsigned char>^ temp = gcnew cli::array <unsigned char>(sizeof(int));
 				saveFile->Read(temp, 0, sizeof(int));
@@ -558,14 +577,20 @@ namespace Excel
 					}
 				saveFile->Close();
 				UpdateLastFiles(((System::Windows::Forms::ToolStripMenuItem^)sender)->Text);
+				label1->Text = "Ready.";
+				label2->Text = "Processed in " + (clock() - begin) / static_cast <double> (1000) + "s";
 			}
 			catch (...)
 			{
+				label1->Text = "Error.";
+				label2->Text = "Got error in " + (clock() - begin) / static_cast <double> (1000) + "s";
 				MessageBox::Show("Error Processing file", "Error");
 			}
 		}
 		else
+		{
 			MessageBox::Show("Error opening file", "Error");
+		}
 
 	}
 	System::Void Excel::closeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
