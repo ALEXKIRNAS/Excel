@@ -68,9 +68,9 @@ private:
 			flag = visit[*iter];
 
 			switch (flag) {
-				case 0: dfs(*iter, res, visit, circles, height); continue;
-				case 1: circles->insert(*iter);  continue;
-				case 2: continue;
+				case 0: dfs(*iter, res, visit, circles, height); break;
+				case 1: circles->insert(*iter);  break;
+				case 2: break;
 			}
 		}
 
